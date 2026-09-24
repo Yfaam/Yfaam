@@ -14,6 +14,7 @@
       "settings": {
         "image": "shopify://shop_images/Mayfhome_hero.png",
         "eyebrow": "",
+        "brand": "MAYF Home",
         "heading": "Bring Hotel Comfort Home",
         "text": "Mattresses, bedding, beds and made-to-measure curtains — designed for UAE homes. Free delivery. 100 nights to decide.",
         "button_label": "Shop Mattresses",
@@ -150,7 +151,7 @@
         "heading": "Best sellers",
         "subheading": "",
         "collection": "best-sellers",
-        "view_all_link": "shopify://collections/frontpage",
+        "view_all_link": "shopify://collections/best-sellers",
         "product_limit": 8,
         "layout": "carousel",
         "background": "surface"

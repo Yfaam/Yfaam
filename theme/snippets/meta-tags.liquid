@@ -14,13 +14,13 @@
   {%- assign og_type = 'website' -%}
 {%- endif -%}
 
-<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:site_name" content="MAYF Home">
 <meta property="og:url" content="{{ canonical_url }}">
 <meta property="og:title" content="{{ og_title | escape }}">
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:description" content="{{ og_description | escape }}">
 {%- if og_image -%}
-  <meta property="og:image" content="http:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image" content="https:{{ og_image | image_url: width: 1200 }}">
   <meta property="og:image:width" content="1200">
 {%- endif -%}
 {%- if request.page_type == 'product' -%}

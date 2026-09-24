@@ -11,5 +11,15 @@ delete every file that isn't here. Push only the changed files to an **unpublish
 ```sh
 # 1. Admin → Online Store → Themes → "MAYF Home — Final Ar/Eng version" → ⋯ → Duplicate
 # 2. push only these files to the duplicate (never to the live theme)
-shopify theme push --theme <DUPLICATE_THEME_ID> --nodelete --only layout/theme.liquid --only snippets/... 
+# run from this theme/ folder
+shopify theme push --theme <DUPLICATE_THEME_ID> --nodelete \
+  --only layout/theme.liquid --only sections/hero.liquid --only templates/index.json \
+  --only snippets/organization-schema.liquid --only snippets/product-schema.liquid \
+  --only snippets/breadcrumb-schema.liquid --only snippets/meta-tags.liquid
 ```
+
+Then open the duplicate's preview and check (view-source): one `<h1>`, one canonical, one
+Organization block, and `noindex` only on `/search` and `/collections/all`.
+
+Watch out: `templates/index.json` also holds the homepage content. If anyone edits the
+homepage in the theme editor after this snapshot, re-pull that file before pushing it.

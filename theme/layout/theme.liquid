@@ -6,6 +6,29 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="{{ settings.color_background }}">
     <link rel="canonical" href="{{ canonical_url }}">
+    {%- comment -%}
+      Keep thin or duplicate listings out of the index while still letting
+      Google follow their links. Paginated (?page=2) and filtered
+      (?filter.*) collection URLs are left alone: canonical_url already
+      drops the filter params and keeps the page number.
+    {%- endcomment -%}
+    {%- liquid
+      assign noindex = false
+      if template.name == 'search' or template.name == 'cart'
+        assign noindex = true
+      endif
+      if template.name == 'collection'
+        if collection.handle == 'frontpage' or collection.handle == 'all' or collection.handle == 'vendors' or collection.handle == 'types'
+          assign noindex = true
+        endif
+        if current_tags or request.path contains '+'
+          assign noindex = true
+        endif
+      endif
+    -%}
+    {%- if noindex -%}
+      <meta name="robots" content="noindex, follow">
+    {%- endif -%}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <meta name="msvalidate.01" content="1C94F7880610F92254F0B05D8C5D3DAF" />
     {%- comment -%}
@@ -18,11 +41,18 @@
       <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
     {%- endif -%}
 
+    {%- comment -%}
+      The brand suffix is written out rather than taken from shop.name (stored
+      as "Mayf home"), and the check is case-insensitive, so an SEO title that
+      already ends in "| MAYF Home" or "| MAYFHOME" doesn't get a second brand
+      tacked on.
+    {%- endcomment -%}
+    {%- assign title_check = page_title | downcase -%}
     <title>
       {{ page_title }}
       {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
       {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless title_check contains 'mayf' %} | MAYF Home{% endunless -%}
     </title>
 
     {% if page_description %}

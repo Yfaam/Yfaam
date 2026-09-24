@@ -1,11 +1,31 @@
 {% comment %}
-  Organization structured data. Only fields backed by real store data go in
-  here — sameAs is built from whichever social links are actually set, so it
-  never claims an account that doesn't exist.
+  Organization + WebSite structured data — the brand entity Google uses to
+  connect "mayf", "MAYF Home" and the Arabic spellings to this site.
+
+  Only fields backed by real store data go in here — sameAs is built from
+  whichever social links are actually set, so it never claims an account
+  that doesn't exist.
+
+  The brand name is written out rather than read from shop.name, which is
+  stored as "Mayf home" in the admin.
+
+  Organization renders on every page (once, via meta-tags). WebSite is the
+  homepage-only block Google reads for the site name shown in results.
 {% endcomment %}
 
 {%- liquid
-  assign logo_image = sections['header'].settings.logo
+  assign brand_name = 'MAYF Home'
+  assign site_url = shop.url | append: '/'
+
+  comment
+    shop.brand.logo is the logo set under Settings → Brand. Until that's filled
+    in, fall back to the header logo file by name — a snippet can't read
+    another section's settings.
+  endcomment
+  assign logo_image = shop.brand.logo
+  if logo_image == blank
+    assign logo_image = images['mayfhome_final_white_bg_61e8854c-c96b-4a39-8c01-0c39932b62bd.jpg']
+  endif
 
   assign same_as = ''
   if settings.social_instagram_link != blank
@@ -26,14 +46,18 @@
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": {{ shop.name | json }},
+    "@type": ["Organization", "OnlineStore"],
+    "@id": {{ site_url | append: '#organization' | json }},
+    "name": {{ brand_name | json }},
+    "alternateName": ["MAYF", "Mayf Home", "mayfhome", "معيوف هوم", "ماف هوم"],
     "legalName": "MAYF General Trading FZE LLC",
-    "url": {{ shop.url | json }},
+    "url": {{ site_url | json }},
     {%- if logo_image != blank %}
     "logo": {{ logo_image | image_url: width: 600 | prepend: 'https:' | json }},
     {%- endif %}
-    "areaServed": "AE",
+    "email": "contact@mayfhome.com",
+    {%- if settings.whatsapp_number != blank %}
+    "telephone": {{ settings.whatsapp_number | prepend: '+' | json }},
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": {{ settings.whatsapp_number | prepend: '+' | json }},
@@ -41,13 +65,43 @@
       "areaServed": "AE",
       "availableLanguage": ["English", "Arabic"]
     },
+    {%- endif %}
     "address": {
       "@type": "PostalAddress",
+      "addressLocality": "Ajman",
       "addressRegion": "Ajman",
       "addressCountry": "AE"
+    },
+    "areaServed": ["AE"],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "MAYF Group"
     }
     {%- if same_as.size > 0 -%}
     ,"sameAs": {{ same_as | json }}
     {%- endif -%}
   }
 </script>
+
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": {{ site_url | append: '#website' | json }},
+      "name": {{ brand_name | json }},
+      "alternateName": ["MAYF", "mayfhome", "معيوف هوم"],
+      "url": {{ site_url | json }},
+      "inLanguage": {{ request.locale.iso_code | json }},
+      "publisher": { "@id": {{ site_url | append: '#organization' | json }} },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }}
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+{%- endif -%}

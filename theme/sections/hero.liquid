@@ -37,7 +37,17 @@
           <p class="eyebrow" style="margin-bottom: var(--space-3)">{{ section.settings.eyebrow }}</p>
         {%- endif -%}
 
-        <h1 class="hero__title">{{ section.settings.heading }}</h1>
+        {%- comment -%}
+          The brand line sits inside the H1 so the page's one heading names
+          the business ("MAYF Home") as well as the promise. It's styled like
+          the eyebrow so the visible design doesn't change.
+        {%- endcomment -%}
+        <h1 class="hero__title">
+          {%- if section.settings.brand != blank -%}
+            <span class="eyebrow hero__brand" style="display: block; margin-bottom: var(--space-3)">{{ section.settings.brand }}</span>
+          {%- endif -%}
+          {{ section.settings.heading }}
+        </h1>
 
         {%- if section.settings.text != blank -%}
           <p class="hero__text">{{ section.settings.text }}</p>
@@ -67,6 +77,13 @@
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Background image" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    {
+      "type": "text",
+      "id": "brand",
+      "label": "Brand line (part of the H1)",
+      "default": "MAYF Home",
+      "info": "Shown above the heading, inside the page's main H1, so search engines read the brand name as part of it. Leave it on the homepage."
+    },
     {
       "type": "textarea",
       "id": "heading",

@@ -4,9 +4,19 @@
   currently-selected one.
 {% endcomment %}
 
+{%- comment -%}
+  Vendors are spelled three ways in the admin (MAYF Home, Mayf Home, Mayf
+  home). Any of them is the house brand, so the schema prints it one way.
+{%- endcomment -%}
 {%- liquid
   assign rating = product.metafields.reviews.rating.value
   assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+
+  assign brand_name = product.vendor | default: 'MAYF Home'
+  assign vendor_check = brand_name | downcase
+  if vendor_check contains 'mayf'
+    assign brand_name = 'MAYF Home'
+  endif
 
   assign size_option_index = 0
   for option in product.options_with_values
@@ -23,7 +33,7 @@
     "name": {{ product.title | json }},
     "description": {{ product.description | strip_html | truncatewords: 60 | json }},
     "url": {{ shop.url | append: product.url | json }},
-    "brand": { "@type": "Brand", "name": {{ product.vendor | default: shop.name | json }} },
+    "brand": { "@type": "Brand", "name": {{ brand_name | json }} },
     "productGroupID": {{ product.handle | json }},
     "variesBy": ["https://schema.org/size"],
     {%- if product.featured_media %}
@@ -62,7 +72,7 @@
             "priceCurrency": {{ cart.currency.iso_code | json }},
             "price": {{ variant.price | divided_by: 100.0 | json }},
             "availability": {% if variant.available %}"https://schema.org/InStock"{% else %}"https://schema.org/OutOfStock"{% endif %},
-            "seller": { "@type": "Organization", "name": {{ shop.name | json }} },
+            "seller": { "@id": {{ shop.url | append: '/#organization' | json }} },
             "shippingDetails": {
               "@type": "OfferShippingDetails",
               "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": {{ cart.currency.iso_code | json }} },

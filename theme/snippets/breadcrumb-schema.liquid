@@ -1,9 +1,13 @@
 {% comment %}
   BreadcrumbList structured data, mirrored from snippets/breadcrumbs.liquid so
   the visible trail and the schema can never say different things.
+
+  Only emitted where there is a real trail. Search, cart and account pages
+  would otherwise publish a one-item list that just says "Home".
 {% endcomment %}
 
-{%- unless request.page_type == 'index' -%}
+{%- assign crumb_types = 'product,collection,page,blog,article' | split: ',' -%}
+{%- if crumb_types contains request.page_type -%}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -68,8 +72,16 @@
               "name": {{ article.title | json }},
               "item": {{ shop.url | append: article.url | json }}
             }
+
+          {%- when 'blog' -%}
+            ,{
+              "@type": "ListItem",
+              "position": 2,
+              "name": {{ blog.title | json }},
+              "item": {{ shop.url | append: blog.url | json }}
+            }
         {%- endcase -%}
       ]
     }
   </script>
-{%- endunless -%}
+{%- endif -%}
