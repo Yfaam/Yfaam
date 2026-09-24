@@ -1,0 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": { "type": "main-collection", "settings": { "show_trust_bar": true, "show_help_banner": false, "show_quiz_strip": false } },
+    "guide": { "type": "seo-guide", "settings": { "background": "default", "content": "<h2>Is your mattress too firm? A 5cm topper changes everything</h2><p>A mattress topper is a 5cm padded layer placed on top of your existing mattress. UAE residents buy them for three main reasons: their mattress has become too firm over 3+ years, they want hotel-bed softness without replacing a good mattress, or they're renting and can't replace the provided mattress.</p><h3>Width to bed size guide</h3><table><thead><tr><th>Width</th><th>Bed Size</th></tr></thead><tbody><tr><td>120 cm</td><td>Single</td></tr><tr><td>150 cm</td><td>Small Double</td></tr><tr><td>160 cm</td><td>Double / Queen</td></tr><tr><td>180 cm</td><td>King</td></tr><tr><td>200 cm</td><td>Super King</td></tr></tbody></table><h3>Fitting and care in UAE conditions</h3><p>MAYF Home's toppers sit flush with an elasticated skirt so they won't shift during the night. Machine wash on a gentle cycle and air-dry fully before refitting to avoid mildew in humid months.</p>" } },
+    "faq": { "type": "interior-faq", "blocks": {
+      "f1": { "type": "faq", "settings": { "question": "What thickness mattress topper do I need in UAE?", "answer": "<p>MAYF Home's 5cm depth is the hotel-standard thickness — enough to soften a firm mattress without changing its support.</p>" } },
+      "f2": { "type": "faq", "settings": { "question": "What is the difference between a mattress topper and a mattress protector?", "answer": "<p>A topper adds softness and comfort; a protector is a thin waterproof layer that guards against spills, dust and sweat. Many UAE homes use both together.</p>" } },
+      "f3": { "type": "faq", "settings": { "question": "Does a mattress topper help with a firm mattress?", "answer": "<p>Yes — a 5cm microfibre topper is the most common fix for an ageing or overly firm mattress.</p>" } },
+      "f4": { "type": "faq", "settings": { "question": "What size mattress topper do I need for a king bed in UAE?", "answer": "<p>180 cm width fits a standard UAE king mattress (180×200 cm).</p>" } },
+      "f5": { "type": "faq", "settings": { "question": "What is the price of a mattress topper in UAE?", "answer": "<p>MAYF Home toppers range from AED 130 (single) to AED 190–195 (super king), below premium brands like Hotel Linen Klub.</p>" } }
+    }, "block_order": ["f1","f2","f3","f4","f5"], "settings": { "heading": "Frequently Asked Questions", "contact_heading": "Still have questions?", "contact_text": "Our bedding team is happy to help.", "contact_button": "Contact Us", "contact_link": "/pages/contact", "background": "surface" } }
+  },
+  "order": ["main", "guide", "faq"]
+}

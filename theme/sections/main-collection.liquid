@@ -1,0 +1,471 @@
+{% comment %}
+  Collection page — custom JS-powered filters.
+
+  Filters read data-* attributes on each product wrapper so they work
+  without Search & Discovery app configuration. Type and Size are derived
+  dynamically from whatever is actually in the collection (so this works for
+  mattresses, bedding, or any other category without hardcoding names).
+  Firmness and Features stay curated lists since they're mattress-specific
+  attributes stored as tags, but their <details> block only renders when at
+  least one option actually matches, so unrelated collections (e.g. bedding)
+  don't show an empty filter header.
+{% endcomment %}
+
+{%- paginate collection.products by 50 -%}
+
+<div class="page-width">
+  {% render 'breadcrumbs' %}
+
+  <div class="collection-header">
+    <h1 class="collection-header__title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="collection-header__desc rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_trust_bar -%}
+    {% render 'trust-badges', boxed: true, collection: collection %}
+  {%- endif -%}
+
+  <div class="collection-layout" style="margin-top: var(--space-6)">
+    {%- comment -%} ------------------------------------------ Filter sidebar {%- endcomment -%}
+    <aside class="facets" data-facets-panel>
+      <div class="facets__header">
+        <span class="facets__title">Filters</span>
+        <div class="flex gap-3 items-center">
+          <button type="button" class="facets__clear" data-filter-clear>Clear all</button>
+          <button type="button" class="drawer__close facets-toggle" data-facets-close aria-label="Close filters">
+            {% render 'icon', name: 'close' %}
+          </button>
+        </div>
+      </div>
+
+      {%- comment -%} TYPE — dynamic: every distinct product type present in this collection {%- endcomment -%}
+      {%- assign known_types = collection.products | map: 'type' | uniq | sort -%}
+      {%- if known_types.size > 0 -%}
+        <details class="facet" open>
+          <summary class="facet__summary">
+            <span>Type</span>
+            {% render 'icon', name: 'chevron-down' %}
+          </summary>
+          <div class="facet__list">
+            {%- for type_name in known_types -%}
+              {%- if type_name != blank -%}
+                {%- assign type_slug = type_name | downcase | replace: ' ', '-' -%}
+                {%- assign type_count = 0 -%}
+                {%- for p in collection.products -%}
+                  {%- if p.type == type_name -%}{%- assign type_count = type_count | plus: 1 -%}{%- endif -%}
+                {%- endfor -%}
+                {%- if type_count > 0 -%}
+                  <label class="facet-option">
+                    <input type="checkbox" data-filter="type" value="{{ type_slug }}">
+                    <span>{{ type_name }} <span class="facet-option__count">({{ type_count }})</span></span>
+                  </label>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} SIZE — dynamic: every distinct first-option (size) value across variants {%- endcomment -%}
+      {%- assign size_scratch = '' -%}
+      {%- for p in collection.products -%}
+        {%- for v in p.variants -%}
+          {%- assign size_scratch = size_scratch | append: v.option1 | append: '::' -%}
+        {%- endfor -%}
+      {%- endfor -%}
+      {%- assign known_sizes = size_scratch | split: '::' | uniq | sort -%}
+      {%- if known_sizes.size > 0 -%}
+        <details class="facet" open>
+          <summary class="facet__summary">
+            <span>Size</span>
+            {% render 'icon', name: 'chevron-down' %}
+          </summary>
+          <div class="facet__list">
+            {%- for size_name in known_sizes -%}
+              {%- if size_name != blank -%}
+                {%- assign size_slug = size_name | downcase | replace: ' ', '-' -%}
+                {%- assign size_count = 0 -%}
+                {%- for p in collection.products -%}
+                  {%- for v in p.variants -%}
+                    {%- if v.option1 == size_name -%}
+                      {%- assign size_count = size_count | plus: 1 -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+                {%- if size_count > 0 -%}
+                  <label class="facet-option">
+                    <input type="checkbox" data-filter="size" value="{{ size_slug }}">
+                    <span>{{ size_name }} <span class="facet-option__count">({{ size_count }})</span></span>
+                  </label>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} FIRMNESS — curated mattress attribute; hidden entirely when none apply {%- endcomment -%}
+      {%- capture firmness_options -%}
+        {%- assign known_firmness = 'Soft|Medium|Medium Firm|Firm' | split: '|' -%}
+        {%- for firm_name in known_firmness -%}
+          {%- assign firm_slug = firm_name | downcase | replace: ' ', '-' -%}
+          {%- assign firm_count = 0 -%}
+          {%- for p in collection.products -%}
+            {%- for tag in p.tags -%}
+              {%- if tag == firm_name -%}
+                {%- assign firm_count = firm_count | plus: 1 -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- if firm_count > 0 -%}
+            <label class="facet-option">
+              <input type="checkbox" data-filter="firmness" value="{{ firm_slug }}">
+              <span>{{ firm_name }} <span class="facet-option__count">({{ firm_count }})</span></span>
+            </label>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if firmness_options != blank -%}
+        <details class="facet" open>
+          <summary class="facet__summary">
+            <span>Firmness</span>
+            {% render 'icon', name: 'chevron-down' %}
+          </summary>
+          <div class="facet__list">{{ firmness_options }}</div>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} FEATURES — curated mattress attribute; hidden entirely when none apply {%- endcomment -%}
+      {%- capture feature_options -%}
+        {%- assign feat_slugs  = 'cooling|back-support|pillow-top|kids|natural' | split: '|' -%}
+        {%- assign feat_labels = 'Cooling|Back Support|Pillow Top|Kids|Natural' | split: '|' -%}
+        {%- for fi in (0..4) -%}
+          {%- assign feat_slug  = feat_slugs[fi] -%}
+          {%- assign feat_label = feat_labels[fi] -%}
+          {%- assign feat_count = 0 -%}
+          {%- for p in collection.products -%}
+            {%- for tag in p.tags -%}
+              {%- if tag == feat_slug -%}
+                {%- assign feat_count = feat_count | plus: 1 -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+          {%- if feat_count > 0 -%}
+            <label class="facet-option">
+              <input type="checkbox" data-filter="features" value="{{ feat_slug }}">
+              <span>{{ feat_label }} <span class="facet-option__count">({{ feat_count }})</span></span>
+            </label>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if feature_options != blank -%}
+        <details class="facet" open>
+          <summary class="facet__summary">
+            <span>Features</span>
+            {% render 'icon', name: 'chevron-down' %}
+          </summary>
+          <div class="facet__list">{{ feature_options }}</div>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} PRICE {%- endcomment -%}
+      <details class="facet" open>
+        <summary class="facet__summary">
+          <span>Price (AED)</span>
+          {% render 'icon', name: 'chevron-down' %}
+        </summary>
+        <div class="facet__price">
+          <input type="number" data-filter-price="min" placeholder="Min" min="0" inputmode="numeric" aria-label="Minimum price">
+          <span class="text-muted">&ndash;</span>
+          <input type="number" data-filter-price="max" placeholder="Max" inputmode="numeric" aria-label="Maximum price">
+        </div>
+        <button type="button" class="btn btn--ghost btn--full btn--sm" style="margin-top: 8px" data-price-apply>Apply price</button>
+      </details>
+
+      <button type="button" class="btn btn--ghost btn--full btn--sm" style="margin-top: var(--space-4)" data-filter-clear>
+        Clear all filters
+      </button>
+    </aside>
+
+    {%- comment -%} ------------------------------------------ Product grid {%- endcomment -%}
+    <div data-collection-results>
+      <div class="collection-toolbar">
+        <button type="button" class="btn btn--ghost btn--sm facets-toggle" data-facets-toggle>
+          {% render 'icon', name: 'filter' %}
+          Filters
+        </button>
+
+        <span class="collection-toolbar__count" data-result-count>
+          {{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}
+        </span>
+
+        <div class="select-wrap">
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          <select data-sort aria-label="{{ 'collections.sorting.label' | t }}">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}" {% if option.value == sort_by %}selected{% endif %}>
+                Sort: {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+          {% render 'icon', name: 'chevron-down' %}
+        </div>
+      </div>
+
+      <div class="active-facets" data-active-filters style="display:none"></div>
+
+      {%- if collection.products.size > 0 -%}
+        <div class="product-grid" data-product-grid>
+          {%- for product in collection.products -%}
+            {%- assign p_type     = product.type | downcase | replace: ' ', '-' -%}
+            {%- assign p_firmness = '' -%}
+            {%- assign p_features = '' -%}
+            {%- assign p_sizes    = '' -%}
+            {%- assign p_price    = product.price_min | divided_by: 100 -%}
+
+            {%- for tag in product.tags -%}
+              {%- if tag == 'Soft' or tag == 'Medium' or tag == 'Medium Firm' or tag == 'Firm' -%}
+                {%- assign p_firmness = tag | downcase | replace: ' ', '-' -%}
+              {%- endif -%}
+              {%- if tag == 'cooling' or tag == 'back-support' or tag == 'pillow-top' or tag == 'kids' or tag == 'natural' -%}
+                {%- assign p_features = p_features | append: tag | append: ' ' -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for variant in product.variants -%}
+              {%- assign sv = variant.option1 | downcase | replace: ' ', '-' -%}
+              {%- assign p_sizes = p_sizes | append: sv | append: ' ' -%}
+            {%- endfor -%}
+
+            <div class="product-grid__item"
+                 data-pf-type="{{ p_type }}"
+                 data-pf-firmness="{{ p_firmness | strip }}"
+                 data-pf-features="{{ p_features | strip }}"
+                 data-pf-sizes="{{ p_sizes | strip }}"
+                 data-pf-price="{{ p_price }}">
+              {% render 'product-card', product: product, show_quick_add: settings.card_show_quick_add %}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="cart-empty" data-no-results style="display:none">
+          <h2 class="h3">No products match your filters</h2>
+          <p class="text-muted">Try adjusting or clearing your filters.</p>
+          <div class="flex gap-3" style="flex-wrap:wrap;justify-content:center">
+            <button type="button" class="btn btn--primary" data-filter-clear>Clear all filters</button>
+            {% render 'whatsapp-link' %}
+          </div>
+        </div>
+
+        {% render 'pagination', paginate: paginate %}
+      {%- else -%}
+        <div class="cart-empty">
+          <h2 class="h3">{{ 'collections.general.no_matches_title' | t }}</h2>
+          <p class="text-muted">{{ 'collections.general.no_matches_text' | t }}</p>
+          <div class="flex gap-3" style="flex-wrap:wrap;justify-content:center">
+            <a href="{{ collection.url }}" class="btn btn--primary">{{ 'collections.facets.clear_all' | t }}</a>
+            {% render 'whatsapp-link' %}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_help_banner -%}
+        <div style="margin-top: var(--space-6)">
+          <div class="help-banner">
+            <div class="help-banner__media">
+              {%- if section.settings.help_image != blank -%}
+                <img src="{{ section.settings.help_image | image_url: width: 1400 }}" alt="" loading="lazy"
+                  width="{{ section.settings.help_image.width }}" height="{{ section.settings.help_image.height }}">
+              {%- endif -%}
+              <div class="help-banner__scrim"></div>
+            </div>
+            <div class="help-banner__body">
+              <h2 class="help-banner__title">{{ section.settings.help_heading }}</h2>
+              <p class="help-banner__text">{{ section.settings.help_text }}</p>
+              {% render 'whatsapp-link', label: section.settings.help_button_label %}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- if section.settings.show_quiz_strip -%}
+  <div class="section--surface" style="margin-top: var(--space-7)">
+    <div class="page-width">
+      <div class="value-steps">
+        <div class="value-step">{% render 'icon', name: 'moon' %}<span>{{ 'collections.quiz.step_1' | t }}</span></div>
+        <div class="value-step">{% render 'icon', name: 'clock' %}<span>{{ 'collections.quiz.step_2' | t }}</span></div>
+        <div class="value-step">{% render 'icon', name: 'check-circle' %}<span>{{ 'collections.quiz.step_3' | t }}</span></div>
+        <div class="value-step">{% render 'icon', name: 'sparkle' %}<span>{{ 'collections.quiz.step_4' | t }}</span></div>
+      </div>
+      <div class="text-center" style="padding-bottom: var(--space-6)">
+        <a href="{{ section.settings.quiz_link | default: settings.quiz_url }}" class="btn btn--primary">
+          {{ 'collections.quiz.cta' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{%- endpaginate -%}
+
+<script>
+(function () {
+  "use strict";
+
+  var grid = document.querySelector("[data-product-grid]");
+  if (!grid) return;
+
+  var items = Array.prototype.slice.call(grid.querySelectorAll(".product-grid__item"));
+  var noResults = document.querySelector("[data-no-results]");
+  var countEl   = document.querySelector("[data-result-count]");
+  var chipsEl   = document.querySelector("[data-active-filters]");
+
+  var active = { type: [], size: [], firmness: [], features: [] };
+  var priceMin = null, priceMax = null;
+
+  function tokens(str) { return (str || "").split(" ").filter(Boolean); }
+
+  function matches(el) {
+    var type     = el.dataset.pfType || "";
+    var firmness = el.dataset.pfFirmness || "";
+    var features = tokens(el.dataset.pfFeatures);
+    var sizes    = tokens(el.dataset.pfSizes);
+    var price    = parseFloat(el.dataset.pfPrice) || 0;
+
+    if (active.type.length     && active.type.indexOf(type) === -1)         return false;
+    if (active.firmness.length && active.firmness.indexOf(firmness) === -1)  return false;
+    if (active.size.length     && !active.size.some(function (s) { return sizes.indexOf(s) !== -1; }))    return false;
+    if (active.features.length && !active.features.every(function (f) { return features.indexOf(f) !== -1; })) return false;
+    if (priceMin !== null && price < priceMin) return false;
+    if (priceMax !== null && price > priceMax) return false;
+    return true;
+  }
+
+  function run() {
+    var visible = 0;
+    items.forEach(function (el) {
+      var show = matches(el);
+      el.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+    if (noResults) noResults.style.display = visible === 0 ? "" : "none";
+    if (countEl)   countEl.textContent     = visible + " " + (visible === 1 ? "product" : "products");
+    renderChips();
+  }
+
+  function renderChips() {
+    if (!chipsEl) return;
+    var html = [];
+    ["type", "firmness", "size", "features"].forEach(function (g) {
+      active[g].forEach(function (val) {
+        var label = val.replace(/-/g, " ").replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+        html.push(
+          '<button class="active-facet" type="button" data-rm-group="' + g + '" data-rm-val="' + val + '">' +
+          label +
+          '<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.5"/></svg>' +
+          "</button>"
+        );
+      });
+    });
+    if (priceMin !== null || priceMax !== null) {
+      var pl = "AED " + (priceMin !== null ? priceMin : "0") + " – " + (priceMax !== null ? priceMax : "∞");
+      html.push(
+        '<button class="active-facet" type="button" data-rm-group="price">' + pl +
+        '<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.5"/></svg>' +
+        "</button>"
+      );
+    }
+    chipsEl.innerHTML = html.join("");
+    chipsEl.style.display = html.length ? "" : "none";
+  }
+
+  function clearAll() {
+    active = { type: [], size: [], firmness: [], features: [] };
+    priceMin = null; priceMax = null;
+    Array.prototype.forEach.call(document.querySelectorAll("input[data-filter]"), function (inp) { inp.checked = false; });
+    var minEl = document.querySelector("[data-filter-price='min']");
+    var maxEl = document.querySelector("[data-filter-price='max']");
+    if (minEl) minEl.value = "";
+    if (maxEl) maxEl.value = "";
+    run();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll("input[data-filter]"), function (inp) {
+    inp.addEventListener("change", function () {
+      var g = this.getAttribute("data-filter");
+      var v = this.value;
+      if (this.checked) { if (active[g].indexOf(v) === -1) active[g].push(v); }
+      else               { active[g] = active[g].filter(function (x) { return x !== v; }); }
+      run();
+    });
+  });
+
+  var applyBtn = document.querySelector("[data-price-apply]");
+  if (applyBtn) {
+    applyBtn.addEventListener("click", function () {
+      var minEl = document.querySelector("[data-filter-price='min']");
+      var maxEl = document.querySelector("[data-filter-price='max']");
+      priceMin = minEl && minEl.value !== "" ? parseFloat(minEl.value) : null;
+      priceMax = maxEl && maxEl.value !== "" ? parseFloat(maxEl.value) : null;
+      run();
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("[data-filter-clear]")) { clearAll(); return; }
+
+    var rm = e.target.closest("[data-rm-group]");
+    if (rm) {
+      var g = rm.getAttribute("data-rm-group");
+      var v = rm.getAttribute("data-rm-val");
+      if (g === "price") {
+        priceMin = null; priceMax = null;
+        var minEl = document.querySelector("[data-filter-price='min']");
+        var maxEl = document.querySelector("[data-filter-price='max']");
+        if (minEl) minEl.value = "";
+        if (maxEl) maxEl.value = "";
+      } else {
+        active[g] = active[g].filter(function (x) { return x !== v; });
+        var cb = document.querySelector("input[data-filter='" + g + "'][value='" + v + "']");
+        if (cb) cb.checked = false;
+      }
+      run();
+    }
+  });
+
+  var sortEl = document.querySelector("[data-sort]");
+  if (sortEl) {
+    sortEl.addEventListener("change", function () {
+      var url = new URL(window.location.href);
+      url.searchParams.set("sort_by", this.value);
+      window.location.assign(url.toString());
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "checkbox", "id": "show_trust_bar", "label": "Show trust bar", "default": true },
+    { "type": "header", "content": "Help banner" },
+    { "type": "checkbox", "id": "show_help_banner", "label": "Show help banner", "default": true },
+    { "type": "image_picker", "id": "help_image", "label": "Image" },
+    { "type": "text", "id": "help_heading", "label": "Heading", "default": "Still confused?" },
+    { "type": "text", "id": "help_text", "label": "Text", "default": "Let our experts help you choose the right mattress." },
+    { "type": "text", "id": "help_button_label", "label": "Button label", "default": "Chat on WhatsApp" },
+    { "type": "header", "content": "Quiz strip" },
+    { "type": "checkbox", "id": "show_quiz_strip", "label": "Show quiz strip", "default": true },
+    { "type": "url", "id": "quiz_link", "label": "Quiz link" }
+  ]
+}
+{% endschema %}
