@@ -18,9 +18,15 @@
 
   <div class="collection-header">
     <h1 class="collection-header__title">{{ collection.title }}</h1>
-    {%- if collection.description != blank -%}
-      <div class="collection-header__desc rte">{{ collection.description }}</div>
-    {%- endif -%}
+    {%- comment -%}
+      SEO intro (custom.seo_intro) replaces the description when set, and
+      sibling collection links follow it. Falls back to the description.
+    {%- endcomment -%}
+    {% render 'collection-seo-intro',
+      related_label: section.settings.related_label,
+      read_more: section.settings.read_more_label,
+      read_less: section.settings.read_less_label
+    %}
   </div>
 
   {%- if section.settings.show_trust_bar -%}
@@ -248,6 +254,15 @@
                  data-pf-features="{{ p_features | strip }}"
                  data-pf-sizes="{{ p_sizes | strip }}"
                  data-pf-price="{{ p_price }}">
+              {%- comment -%}
+                Curated collections (best-mattresses) say who each pick is for,
+                from the product's custom.best_for metafield.
+              {%- endcomment -%}
+              {%- if section.settings.show_best_for and product.metafields.custom.best_for != blank -%}
+                <p class="product-grid__pick">
+                  {{- section.settings.best_for_prefix }} <strong>{{ product.metafields.custom.best_for }}</strong>
+                </p>
+              {%- endif -%}
               {% render 'product-card', product: product, show_quick_add: settings.card_show_quick_add %}
             </div>
           {%- endfor -%}
@@ -319,6 +334,35 @@
 <script>
 (function () {
   "use strict";
+
+  // Intro "Read more": clamp on phones only, and only when the text is
+  // actually taller than the clamp. Without JS the full intro shows.
+  var intro = document.querySelector("[data-collection-intro]");
+  if (intro) {
+    var introBody = intro.querySelector(".collection-intro__body");
+    var introBtn  = intro.querySelector("[data-intro-toggle]");
+    var phone = window.matchMedia("(max-width: 749px)");
+    var setClamp = function () {
+      intro.classList.remove("is-clamped");
+      introBtn.hidden = true;
+      if (!phone.matches) return;
+      intro.classList.add("is-clamped");
+      if (introBody.scrollHeight > introBody.clientHeight + 4) {
+        introBtn.hidden = false;
+        introBtn.setAttribute("aria-expanded", "false");
+        introBtn.textContent = introBtn.dataset.labelMore;
+      } else {
+        intro.classList.remove("is-clamped");
+      }
+    };
+    introBtn.addEventListener("click", function () {
+      var open = intro.classList.toggle("is-clamped") === false;
+      introBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      introBtn.textContent = open ? introBtn.dataset.labelLess : introBtn.dataset.labelMore;
+    });
+    setClamp();
+    if (phone.addEventListener) phone.addEventListener("change", setClamp);
+  }
 
   var grid = document.querySelector("[data-product-grid]");
   if (!grid) return;
@@ -452,6 +496,58 @@
 })();
 </script>
 
+{% stylesheet %}
+  .collection-intro__body { margin-top: var(--space-3); max-width: 80ch; }
+  .collection-intro__body > :first-child { margin-top: 0; }
+  .collection-intro__body > :last-child { margin-bottom: 0; }
+  .collection-intro.is-clamped .collection-intro__body {
+    max-height: 7.5em;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  }
+  .collection-intro__toggle {
+    margin-top: var(--space-2);
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .collection-related {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-4);
+  }
+  .collection-related__label { font-size: 0.85rem; color: var(--color-text-muted); }
+  .collection-related__list { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+  .collection-related__link {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    color: var(--color-text);
+    background: var(--color-bg);
+  }
+  .collection-related__link:hover { border-color: var(--color-text); }
+
+  .product-grid__pick {
+    margin: 0 0 var(--space-2);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+  .product-grid__pick strong { color: var(--color-text); }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Collection",
@@ -465,7 +561,24 @@
     { "type": "text", "id": "help_button_label", "label": "Button label", "default": "Chat on WhatsApp" },
     { "type": "header", "content": "Quiz strip" },
     { "type": "checkbox", "id": "show_quiz_strip", "label": "Show quiz strip", "default": true },
-    { "type": "url", "id": "quiz_link", "label": "Quiz link" }
+    { "type": "url", "id": "quiz_link", "label": "Quiz link" },
+    { "type": "header", "content": "SEO intro & related links" },
+    {
+      "type": "paragraph",
+      "content": "The intro comes from the collection's custom.seo_intro metafield (falls back to the description). Related links come from custom.related_collections."
+    },
+    { "type": "text", "id": "related_label", "label": "Related collections label", "default": "Also shop:" },
+    { "type": "text", "id": "read_more_label", "label": "Read more label (phones)", "default": "Read more" },
+    { "type": "text", "id": "read_less_label", "label": "Read less label (phones)", "default": "Show less" },
+    { "type": "header", "content": "Editor's picks" },
+    {
+      "type": "checkbox",
+      "id": "show_best_for",
+      "label": "Show \"Editor's pick for…\" above each product",
+      "info": "Reads the product's custom.best_for metafield. Turn on for curated collections such as Best Mattresses.",
+      "default": false
+    },
+    { "type": "text", "id": "best_for_prefix", "label": "Editor's pick prefix", "default": "Editor's pick for" }
   ]
 }
 {% endschema %}

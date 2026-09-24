@@ -15,7 +15,11 @@ delete every file that isn't here. Push only the changed files to an **unpublish
 shopify theme push --theme <DUPLICATE_THEME_ID> --nodelete \
   --only layout/theme.liquid --only sections/hero.liquid --only templates/index.json \
   --only snippets/organization-schema.liquid --only snippets/product-schema.liquid \
-  --only snippets/breadcrumb-schema.liquid --only snippets/meta-tags.liquid
+  --only snippets/breadcrumb-schema.liquid --only snippets/meta-tags.liquid \
+  --only sections/main-collection.liquid --only sections/collection-seo-content.liquid \
+  --only sections/collection-compare.liquid --only snippets/collection-seo-intro.liquid \
+  --only templates/collection.json --only templates/collection.hotel.json \
+  --only templates/collection.best.json --only templates/collection.mattress-toppers.json
 ```
 
 Then open the duplicate's preview and check (view-source): one `<h1>`, one canonical, one

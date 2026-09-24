@@ -41,13 +41,17 @@
           The brand line sits inside the H1 so the page's one heading names
           the business ("MAYF Home") as well as the promise. It's styled like
           the eyebrow so the visible design doesn't change.
+
+          On a collection or page that already has its own H1 (e.g. the Hotel
+          Collection landing), set "Heading level" to H2.
         {%- endcomment -%}
-        <h1 class="hero__title">
+        {%- assign heading_tag = section.settings.heading_tag | default: 'h1' -%}
+        <{{ heading_tag }} class="hero__title">
           {%- if section.settings.brand != blank -%}
             <span class="eyebrow hero__brand" style="display: block; margin-bottom: var(--space-3)">{{ section.settings.brand }}</span>
           {%- endif -%}
           {{ section.settings.heading }}
-        </h1>
+        </{{ heading_tag }}>
 
         {%- if section.settings.text != blank -%}
           <p class="hero__text">{{ section.settings.text }}</p>
@@ -90,6 +94,17 @@
       "label": "Heading",
       "default": "Better Sleep. Better Living.",
       "info": "Lead with the outcome, not the product."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "options": [
+        { "value": "h1", "label": "H1 (homepage)" },
+        { "value": "h2", "label": "H2 (page already has an H1)" }
+      ],
+      "default": "h1",
+      "info": "Every page should have exactly one H1."
     },
     {
       "type": "textarea",

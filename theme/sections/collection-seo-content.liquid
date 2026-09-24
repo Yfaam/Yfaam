@@ -1,0 +1,67 @@
+{% comment %}
+  Collection FAQs, below the product grid.
+
+  Reads custom.faqs: a multi-line text metafield with one "Question|Answer"
+  per line — the same format products already use for custom.mattress_faqs,
+  so it renders through the same accordion (product-qa) and FAQPage schema
+  (faq-schema) snippets and the two can't drift apart. Answers may contain
+  simple HTML such as links.
+
+  Renders nothing when the metafield is empty, so it's safe on every
+  collection template. The intro and related links live in main-collection
+  (under the H1, above the grid) via snippets/collection-seo-intro.
+
+  Don't fill custom.faqs on a collection whose template already has an
+  "Interior FAQ" section (mattress-toppers, mattress-protectors), or the page
+  would carry two FAQPage blocks.
+{% endcomment %}
+
+{%- liquid
+  assign faq_items = collection.metafields.custom.faqs.value | newline_to_br | split: '<br />'
+  assign faq_count = 0
+  for entry in faq_items
+    if entry contains '|'
+      assign faq_count = faq_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if current_page == 1 and faq_count > 0 -%}
+  <section class="section {% if section.settings.background == 'surface' %}section--surface{% endif %} collection-faq" {{ section.shopify_attributes }}>
+    <div class="page-width collection-faq__inner">
+      <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      {% render 'product-qa', items: faq_items %}
+    </div>
+  </section>
+
+  {% render 'faq-schema', items: faq_items %}
+{%- endif -%}
+
+{% stylesheet %}
+  .collection-faq__inner { max-width: 860px; margin-inline: auto; }
+  .collection-faq .section-heading { margin-bottom: var(--space-5); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection FAQs",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Questions come from the collection's custom.faqs metafield — one \"Question|Answer\" per line. Hidden when empty."
+    },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked questions" },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "default", "label": "White" },
+        { "value": "surface", "label": "Warm" }
+      ],
+      "default": "surface"
+    }
+  ],
+  "presets": [{ "name": "Collection FAQs" }]
+}
+{% endschema %}

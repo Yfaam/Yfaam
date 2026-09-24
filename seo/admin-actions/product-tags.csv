@@ -1,0 +1,14 @@
+handle,add_tags,also_change,why,verify
+hotel-collection-tight-top-mattress-by-mayf-home,"single size, queen size, king size, super king, tight-top, Firm, orthopedic, medical","Product type: (blank) → Pocket Spring; Vendor → MAYF Home; metafields custom.firmness = Firm, custom.firmness_scale = 9","Sizes 90x200–200x200 but no size tags, so it's missing from Single/Queen/King/Super King. No tight-top tag (comparison table). Blank type keeps it out of Pocket Spring. 9/10 firm per its description",Queen = 150x200 & 160x200
+hotel-collection-euro-top-mattress-by-mayf-home,"single size, queen size, king size, super king, orthopedic",Vendor → MAYF Home; metafield custom.firmness_scale = 8,Size tags; 8/10 and 'orthopedic support' per its description,Firmness tag: Firm or Medium Firm?
+hotel-collection-fr-tight-top-mattress-by-mayf-home,"single size, queen size, king size, super king, orthopedic, medical",Vendor → MAYF Home; firmness metafields,Size tags; FR hotel model,Firmness rating; orthopedic/medical
+hotel-collection-fr-euro-top-mattress-by-mayf-home,"single size, queen size, king size, super king, orthopedic",Vendor → MAYF Home; firmness metafields,Size tags,Firmness rating; orthopedic
+cool-fusion-gel-tight-top-mattress-by-mayf-home,"single size, queen size, king size, super king",Vendor → MAYF Home; firmness tag + metafields,Size tags,Firmness
+cool-fusion-gel-euro-top-mattress-by-mayf-home,"single size, queen size, king size, super king",Vendor → MAYF Home; firmness tag + metafields,Size tags,Firmness
+natures-haven-latex-tight-top-mattress-by-mayf-home,"single size, queen size, king size, super king",Vendor → MAYF Home; firmness tag + metafields,Size tags,Firmness
+natures-haven-latex-euro-top-mattress-by-mayf-home,"single size, queen size, king size, super king",Vendor → MAYF Home; firmness tag + metafields,Size tags,Firmness
+kids-gel-visco-mattress-by-mayf-home,single size,Vendor → MAYF Home,Has 90x200 and 90x190 but no size tag,
+kids-latex-mattress-by-mayf-home,single size,Vendor → MAYF Home,Has 90x200 and 90x190 but no size tag,
+cooling-gel-memory-mattress,queen size,,Has a Queen variant but no queen tag,
+kids-comfort-mattress,"single size, queen size",,Has Single and Queen variants but no size tags,
+signature-hotel-collection-mattress,pillow-top,"Description: '10 night trial' → '100-night sleep trial'",Pillow top per its description (comparison table),The trial length

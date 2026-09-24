@@ -1,0 +1,82 @@
+/*
+ * Hotel Collection landing page — assign to the collection
+ * hotel-collection-mattresses (Collection → Theme template → "hotel").
+ *
+ * The hero heading is an H2: main-collection prints the page's one H1
+ * (the collection title). The comparison table reads live product data.
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "image": "shopify://shop_images/tHE_hOTEL_BEDROOM.png",
+        "eyebrow": "The Hotel Collection by MAYF Home",
+        "brand": "",
+        "heading": "5-star hotel sleep at home",
+        "heading_tag": "h2",
+        "text": "Pocket-spring mattresses built to the contract-grade spec used in hotel rooms, delivered to your bedroom anywhere in the UAE.",
+        "button_label": "Compare the range",
+        "button_link": "#compare",
+        "button_label_2": "Shop the Hotel Bedroom",
+        "button_link_2": "shopify://collections/the-hotel-bedroom",
+        "show_trust_bar": false
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_trust_bar": true,
+        "show_help_banner": true,
+        "help_image": "shopify://shop_images/whatsapp_chat_2.png",
+        "help_heading": "Buying for a hotel or serviced apartment?",
+        "help_text": "Ask about fire-retardant models and bulk orders.",
+        "help_button_label": "Chat on WhatsApp",
+        "show_quiz_strip": false,
+        "quiz_link": "",
+        "related_label": "Also shop:",
+        "read_more_label": "Read more",
+        "read_less_label": "Show less",
+        "show_best_for": false,
+        "best_for_prefix": "Editor's pick for"
+      }
+    },
+    "compare": {
+      "type": "collection-compare",
+      "settings": {
+        "heading": "Compare the Hotel Collection",
+        "subheading": "Same pocket-spring core, different top layers. Pick the feel, then the size.",
+        "col_product": "Mattress",
+        "col_top": "Top",
+        "col_firmness": "Firmness",
+        "col_fr": "Fire retardant",
+        "col_sizes": "Sizes",
+        "col_price": "From",
+        "fr_yes": "Yes (FR)",
+        "note": "Prices are for the smallest size. All mattresses include free UAE delivery and the 100-night sleep trial.",
+        "background": "default"
+      }
+    },
+    "story": {
+      "type": "seo-guide",
+      "settings": {
+        "background": "surface",
+        "content": "<h2>Why a hotel bed feels different</h2><p>The bed you remember from a good hotel isn't magic. It's a specification: an individually wrapped pocket-spring core that keeps two sleepers from disturbing each other, high-density foam around it so the edges don't sag, and a quilted top that has to survive years of nightly use. Our Hotel Collection is built to that contract-grade spec and sold direct, so you pay for the mattress rather than the showroom.</p><h3>Tight top or euro top?</h3><p>A <strong>tight top</strong> has a quilted surface sewn flush to the mattress, which gives a firmer, even feel. Our Hotel Collection Tight Top is rated 9/10 for firmness. A <strong>euro top</strong> adds a plush layer, flush-sewn over the springs, for a softer first touch with the same support underneath. If you sleep on your back or front, or share with someone heavier, start with the tight top. Side sleepers usually prefer the euro top. The Signature model adds a full pillow top for the deepest hotel feel.</p><h3>Fire-retardant models for hotels and serviced apartments</h3><p>The FR Tight Top and FR Euro Top use fire-retardant fabric and materials for properties with fire-safety requirements. Bulk and B2B orders are available on WhatsApp.</p><h3>Complete the hotel bed</h3><p>A hotel mattress is only half the bed. Pair it with our <a href=\"/collections/duvets\">300TC microfibre duvets</a>, <a href=\"/collections/pillows\">hotel pillows</a> and a <a href=\"/collections/mattress-toppers\">mattress topper</a>, or shop the whole look in <a href=\"/collections/the-hotel-bedroom\">The Hotel Bedroom</a>.</p>"
+      }
+    },
+    "faqs": {
+      "type": "collection-seo-content",
+      "settings": {
+        "heading": "Hotel Collection mattress FAQs",
+        "background": "default"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "main",
+    "compare",
+    "story",
+    "faqs"
+  ]
+}

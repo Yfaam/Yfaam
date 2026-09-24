@@ -1,0 +1,59 @@
+{% comment %}
+  Collection intro + sibling links, rendered under the H1 and above the grid.
+
+  - custom.seo_intro (HTML in a multi-line text field, or a rich text field)
+    replaces the plain collection description when it's filled in. On phones
+    it's cut to a few lines with a "Read more" button; the full text is always
+    in the page, so search engines read all of it.
+  - custom.related_collections (list of collection references) renders as a
+    row of links, so each collection passes weight to its siblings (size ↔
+    type ↔ hotel ↔ best).
+  - Page 2+ of a paginated collection skips the intro so it isn't repeated.
+
+  Accepts:
+    related_label, read_more, read_less — strings from the section settings,
+    so they can be translated in Translate & Adapt.
+{% endcomment %}
+
+{%- liquid
+  assign intro = collection.metafields.custom.seo_intro
+  assign related = collection.metafields.custom.related_collections.value
+-%}
+
+{%- if current_page == 1 and intro != blank -%}
+  <div class="collection-intro" data-collection-intro>
+    <div class="collection-intro__body rte" id="CollectionIntro">
+      {%- if intro.type == 'rich_text_field' -%}
+        {{ intro | metafield_tag }}
+      {%- else -%}
+        {{ intro.value }}
+      {%- endif -%}
+    </div>
+    <button
+      type="button"
+      class="collection-intro__toggle"
+      aria-controls="CollectionIntro"
+      aria-expanded="false"
+      data-intro-toggle
+      data-label-more="{{ read_more | escape }}"
+      data-label-less="{{ read_less | escape }}"
+      hidden>
+      {{- read_more -}}
+    </button>
+  </div>
+{%- elsif collection.description != blank -%}
+  <div class="collection-header__desc rte">{{ collection.description }}</div>
+{%- endif -%}
+
+{%- if related.size > 0 -%}
+  <nav class="collection-related" aria-label="{{ related_label | escape }}">
+    <span class="collection-related__label">{{ related_label }}</span>
+    <ul class="collection-related__list">
+      {%- for related_collection in related -%}
+        {%- if related_collection.handle != collection.handle -%}
+          <li><a class="collection-related__link" href="{{ related_collection.url }}">{{ related_collection.title }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </nav>
+{%- endif -%}

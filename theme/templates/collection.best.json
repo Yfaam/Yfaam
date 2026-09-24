@@ -1,0 +1,48 @@
+/*
+ * Best Mattresses (editor's picks) — assign to the manual collection
+ * best-mattresses (Collection → Theme template → "best").
+ *
+ * Each product shows "Editor's pick for <custom.best_for>". Fill that product
+ * metafield for every product in the collection.
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_trust_bar": true,
+        "show_help_banner": true,
+        "help_image": "shopify://shop_images/whatsapp_chat_2.png",
+        "help_heading": "Still not sure which one?",
+        "help_text": "Tell us how you sleep and we'll narrow it down on WhatsApp.",
+        "help_button_label": "Chat on WhatsApp",
+        "show_quiz_strip": true,
+        "quiz_link": "",
+        "related_label": "Also shop:",
+        "read_more_label": "Read more",
+        "read_less_label": "Show less",
+        "show_best_for": true,
+        "best_for_prefix": "Editor's pick for"
+      }
+    },
+    "how": {
+      "type": "seo-guide",
+      "settings": {
+        "background": "surface",
+        "content": "<h2>How we choose</h2><p>This isn't a list of our most expensive mattresses. Each pick earns its place for one kind of sleeper, and we tell you which.</p><ul><li><strong>Support for the way you sleep.</strong> Back and front sleepers need a firmer surface to keep the spine level. Side sleepers need more give at the shoulder and hip.</li><li><strong>Built for UAE heat.</strong> Pocket springs, latex and gel-infused foams all sleep cooler than dense traditional foam, which matters for eight months of the year here.</li><li><strong>Honest value.</strong> Every pick includes free UAE delivery, the 100-night sleep trial and Tabby or Tamara instalments.</li></ul><p>Want the long version? Read our guide to <a href=\"/blogs/guides/best-mattress-in-uae\">choosing the best mattress in the UAE</a>, or compare <a href=\"/blogs/guides/latex-vs-memory-foam-mattress\">latex vs memory foam</a>.</p>"
+      }
+    },
+    "faqs": {
+      "type": "collection-seo-content",
+      "settings": {
+        "heading": "Best mattress FAQs",
+        "background": "default"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "how",
+    "faqs"
+  ]
+}

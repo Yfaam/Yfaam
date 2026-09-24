@@ -49,3 +49,73 @@ SEO changes. The theme is custom (not Dawn).
   mayfhome.com is blocked by the sandbox network policy. See "Preview" in `theme/README.md`.
 
 **Admin actions:** `seo/admin-actions/CHECKLIST.md` (Phase 1 section), `redirects.csv`, `homepage-meta.md`.
+
+## Phase 2 — Landing pages (2026-09-24)
+
+Built against brief v2 (`SEO_SCALEUP_TASKS.md`, now in the repo). Catalogue facts come from the
+Admin API (read-only).
+
+**Theme**
+- `snippets/collection-seo-intro.liquid` (new), rendered in `main-collection` under the H1 and
+  above the grid:
+  - the intro from `custom.seo_intro` replaces the description when set, and is clamped with
+    "Read more" on phones (the full text stays in the HTML)
+  - related-collection links from `custom.related_collections`
+  - the intro is skipped on page 2+
+- `sections/collection-seo-content.liquid` (new): FAQs from `custom.faqs` (`Question|Answer`
+  lines, the product FAQ format) through the existing `product-qa` + `faq-schema` snippets. It
+  renders nothing when the metafield is empty. Added to `templates/collection.json` below the grid.
+  - Why the intro isn't in this section: the collection H1 and the grid are one section
+    (`main-collection`), so a separate section can't sit between them.
+- `sections/collection-compare.liquid` (new): comparison table from live product data (top type
+  from tags, firmness from metafields, FR tag, size range, lowest price). No hard-coded prices.
+- `sections/main-collection.liquid`:
+  - renders the intro snippet
+  - optional "Editor's pick for <custom.best_for>" label per product
+  - phone-only read-more JS and styles
+  - translatable labels as section settings
+- `sections/hero.liquid`: new "Heading level" setting (H1/H2). The default stays H1, so the
+  homepage is unchanged.
+- `templates/collection.hotel.json` (new): hero (H2) → collection (H1, intro, grid) →
+  comparison → story → FAQs.
+- `templates/collection.best.json` (new): collection with editor's-pick labels → "How we choose"
+  → FAQs.
+- `templates/collection.mattress-toppers.json`:
+  - removed the competitor price claim ("below premium brands like Hotel Linen Klub")
+  - added FAQs: topper vs new mattress, back pain (no medical claims), delivery (free only over
+    AED 500)
+  - added a link to protectors
+
+**Content** (`seo/content/collections/*.md`, one file per collection; built by
+`seo/tools/build_collection_files.py`, which enforces title ≤60, description ≤155, UAE/Dubai,
+"| MAYF Home", 150–300-word intros and 4–6 FAQs)
+- Full intro + FAQs: mattresses, king, queen, single, super king, orthopedic, and the new hotel,
+  best and medical collections. Toppers and protectors get an intro only, because their FAQs live
+  in the templates.
+- Metadata only: latex, memory foam, firm, medium-firm, pocket spring, hybrid, bedding, pillows,
+  pillow cases, plus duvets, duvet covers and bed sheets. Those last three were added because
+  their live descriptions promise free delivery without the AED 500 threshold.
+- Outputs: `admin-actions/seo-metadata.csv`, `collection-metafields.csv`, `new-collections.csv`.
+
+**Admin actions:** `product-tags.csv`, `metafields.md`, and the CHECKLIST Phase 2 section
+(ordered steps).
+
+**Deviations from the brief**
+- **No separate size collections.** They'd duplicate King/Queen/Single/Super King (every product
+  comes in every size). Size queries are mapped to those pages instead; the reasoning and table
+  are in CHECKLIST.
+- **No 80×200** product exists.
+- **Toppers:** the title describes 300TC microfibre, because no memory foam or latex toppers exist.
+- **Protectors:** the collection exists but its only product is a draft, so its metadata is on
+  HOLD. Listed as a catalogue gap.
+- **Hotel page:** no bed-foundation products exist, so that block was left out.
+
+**Verified**
+- Theme Check: no new errors. All missing references are files that exist in the live theme
+  but not in this partial copy.
+- Rendered with liquidjs:
+  - FAQ section: 6 accordion items, and 6 questions in FAQPage schema that parses. Renders
+    nothing when the metafield is empty.
+  - Intro snippet: replaces the description, falls back to it, and skips linking a collection
+    to itself.
+  - Comparison table: shows a dash where data is missing.

@@ -21,9 +21,17 @@
         "show_quiz_strip": false,
         "quiz_link": ""
       }
+    },
+    "faqs": {
+      "type": "collection-seo-content",
+      "settings": {
+        "heading": "Frequently asked questions",
+        "background": "surface"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "faqs"
   ]
 }
