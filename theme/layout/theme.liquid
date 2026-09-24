@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <meta name="msvalidate.01" content="1C94F7880610F92254F0B05D8C5D3DAF" />
+    {%- comment -%}
+      No type attribute: image_url serves the favicon in its uploaded format,
+      so declaring image/png for a JPEG would be a lie the browser has to
+      work around. The touch icon is the same art at the size iOS wants.
+    {%- endcomment -%}
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" href="{{ settings.favicon | image_url: width: 48, height: 48 }}" sizes="48x48">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font = settings.font_body
+      assign body_font_bold = body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = body_font | font_modify: 'style', 'italic'
+      assign heading_font = settings.font_heading
+      assign heading_font_medium = heading_font | font_modify: 'weight', '500'
+      assign heading_font_bold = heading_font | font_modify: 'weight', 'bold'
+    -%}
+
+    {%- comment -%}
+      font_face emits bare CSS with no <style> wrapper. It must sit inside a
+      style block or the browser treats it as text and paints it on the page.
+    {%- endcomment -%}
+    <style>
+      {{ body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ heading_font | font_face: font_display: 'swap' }}
+      {{ heading_font_medium | font_face: font_display: 'swap' }}
+      {{ heading_font_bold | font_face: font_display: 'swap' }}
+
+      :root {
+        --color-bg: {{ settings.color_background }};
+        --color-surface: {{ settings.color_surface }};
+        --color-sand: {{ settings.color_sand }};
+        --color-border: {{ settings.color_border }};
+        --color-text: {{ settings.color_text }};
+        --color-text-muted: {{ settings.color_text_muted }};
+        --color-button: {{ settings.color_button }};
+        --color-button-text: {{ settings.color_button_text }};
+        --color-button-secondary: {{ settings.color_button_secondary }};
+        --color-accent: {{ settings.color_accent }};
+        --color-success: {{ settings.color_success }};
+        --color-urgency: {{ settings.color_urgency }};
+
+        --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+        --font-body-weight: {{ body_font.weight }};
+        --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+        --font-heading-weight: {{ heading_font.weight }};
+        --font-size-base: {{ settings.font_size_base }}px;
+        --heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+
+        --page-width: {{ settings.page_width }}px;
+        --radius: {{ settings.corner_radius }}px;
+      }
+    </style>
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'help-banner.css' | asset_url | stylesheet_tag }}
+
+    <script>
+      window.MAYF = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }},
+          cartUpdate: {{ routes.cart_update_url | json }},
+          predictiveSearch: {{ routes.predictive_search_url | json }}
+        },
+        moneyFormat: {{ shop.money_format | json }},
+        cartDrawer: {{ settings.cart_drawer_enabled | json }},
+        freeShippingThreshold: {{ settings.free_shipping_threshold | default: 0 | times: 100 | json }},
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          added: {{ 'products.product.added' | t | json }},
+          cartError: {{ 'sections.cart.error' | t | json }}
+        }
+      };
+    </script>
+
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+  </head>
+
+  <body class="template--{{ template.name | handle }}">
+    <a class="skip-to-content visually-hidden" href="#MainContent">{{ 'accessibility.skip_to_text' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {%- if settings.cart_drawer_enabled -%}
+      {% render 'cart-drawer' %}
+    {%- endif -%}
+
+    {%- if settings.show_whatsapp_bubble and settings.whatsapp_number != blank -%}
+      {% render 'whatsapp-bubble' %}
+    {%- endif -%}
+
+    <div class="toast" id="Toast" role="status" aria-live="polite"></div>
+
+    {%- if request.page_type == 'product' -%}
+      {% render 'product-schema', product: product %}
+    {%- endif -%}
+
+    {%- unless request.page_type == 'index' -%}
+      {% render 'breadcrumb-schema' %}
+    {%- endunless -%}
+  </body>
+</html>

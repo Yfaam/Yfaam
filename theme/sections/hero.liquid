@@ -1,0 +1,91 @@
+{% comment %}
+  Hero.
+
+  Structure follows how a decision actually forms:
+    headline  → an outcome the shopper wants ("Better Sleep. Better Living.")
+    sub-line  → the rational justification for wanting it
+    primary   → one dominant action, high contrast
+    secondary → an escape route for people not ready to commit
+
+  The image carries a lit, calm bedroom rather than a product on white: the
+  shopper needs to picture the outcome in their own home, not evaluate a slab
+  of foam.
+{% endcomment %}
+
+<section class="hero hero--overlay hero--mobile-stacked" {{ section.shopify_attributes }}>
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 2000 }}"
+        srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2000 }} 2000w"
+        sizes="100vw"
+        alt="{{ section.settings.image.alt | escape }}"
+        width="{{ section.settings.image.width }}"
+        height="{{ section.settings.image.height }}"
+        fetchpriority="high">
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+
+    <div class="hero__scrim"></div>
+  </div>
+
+  <div class="hero__content-wrap">
+    <div class="page-width">
+      <div class="hero__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="eyebrow" style="margin-bottom: var(--space-3)">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        <h1 class="hero__title">{{ section.settings.heading }}</h1>
+
+        {%- if section.settings.text != blank -%}
+          <p class="hero__text">{{ section.settings.text }}</p>
+        {%- endif -%}
+
+        <div class="hero__buttons">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link }}" class="btn btn--primary btn--lg">{{ section.settings.button_label }}</a>
+          {%- endif -%}
+
+          {%- if section.settings.button_label_2 != blank -%}
+            <a href="{{ section.settings.button_link_2 }}" class="btn btn--secondary btn--lg">{{ section.settings.button_label_2 }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if section.settings.show_trust_bar -%}
+  {% render 'trust-badges' %}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Better Sleep. Better Living.",
+      "info": "Lead with the outcome, not the product."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Sub-heading",
+      "default": "Premium mattresses, furniture & interior design solutions for modern UAE homes."
+    },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop Mattresses" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "Shop Furniture" },
+    { "type": "url", "id": "button_link_2", "label": "Secondary button link" },
+    { "type": "checkbox", "id": "show_trust_bar", "label": "Show trust bar below hero", "default": true }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

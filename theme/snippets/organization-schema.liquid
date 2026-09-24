@@ -1,0 +1,53 @@
+{% comment %}
+  Organization structured data. Only fields backed by real store data go in
+  here — sameAs is built from whichever social links are actually set, so it
+  never claims an account that doesn't exist.
+{% endcomment %}
+
+{%- liquid
+  assign logo_image = sections['header'].settings.logo
+
+  assign same_as = ''
+  if settings.social_instagram_link != blank
+    assign same_as = same_as | append: settings.social_instagram_link | append: ','
+  endif
+  if settings.social_facebook_link != blank
+    assign same_as = same_as | append: settings.social_facebook_link | append: ','
+  endif
+  if settings.social_tiktok_link != blank
+    assign same_as = same_as | append: settings.social_tiktok_link | append: ','
+  endif
+  if settings.social_youtube_link != blank
+    assign same_as = same_as | append: settings.social_youtube_link | append: ','
+  endif
+  assign same_as = same_as | split: ','
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "legalName": "MAYF General Trading FZE LLC",
+    "url": {{ shop.url | json }},
+    {%- if logo_image != blank %}
+    "logo": {{ logo_image | image_url: width: 600 | prepend: 'https:' | json }},
+    {%- endif %}
+    "areaServed": "AE",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": {{ settings.whatsapp_number | prepend: '+' | json }},
+      "contactType": "customer service",
+      "areaServed": "AE",
+      "availableLanguage": ["English", "Arabic"]
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "Ajman",
+      "addressCountry": "AE"
+    }
+    {%- if same_as.size > 0 -%}
+    ,"sameAs": {{ same_as | json }}
+    {%- endif -%}
+  }
+</script>

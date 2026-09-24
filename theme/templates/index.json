@@ -1,0 +1,310 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "image": "shopify://shop_images/Mayfhome_hero.png",
+        "eyebrow": "",
+        "heading": "Bring Hotel Comfort Home",
+        "text": "Mattresses, bedding, beds and made-to-measure curtains — designed for UAE homes. Free delivery. 100 nights to decide.",
+        "button_label": "Shop Mattresses",
+        "button_link": "shopify://collections/mattresses",
+        "button_label_2": "Shop Bedding",
+        "button_link_2": "shopify://collections/bedding",
+        "show_trust_bar": true
+      }
+    },
+    "categories": {
+      "type": "category-grid",
+      "blocks": {
+        "mattresses": {
+          "type": "category",
+          "settings": {
+            "label": "Mattresses",
+            "subtitle": "Better Sleep, Brighter Days",
+            "link": "shopify://collections/mattresses",
+            "image": "shopify://shop_images/Mattresses_2.png",
+            "icon": "mattress"
+          }
+        },
+        "bedding": {
+          "type": "category",
+          "settings": {
+            "label": "Bedding",
+            "subtitle": "Everyday Luxury in Every Layer",
+            "link": "shopify://collections/bedding",
+            "image": "shopify://shop_images/Bedding_2.png",
+            "icon": "pillow"
+          }
+        },
+        "curtains": {
+          "type": "category",
+          "settings": {
+            "label": "Curtains",
+            "subtitle": "Little Details, A Big Difference",
+            "link": "shopify://collections/curtains",
+            "image": "shopify://shop_images/Decor_2.png",
+            "icon": "sparkle"
+          }
+        },
+        "bundles": {
+          "type": "category",
+          "settings": {
+            "label": "Bundles & Sets",
+            "subtitle": "Save 15% on the Complete Room",
+            "link": "shopify://collections/bundles-sets",
+            "image": "shopify://shop_images/tHE_hOTEL_BEDROOM.png",
+            "icon": "bed"
+          }
+        }
+      },
+      "block_order": [
+        "mattresses",
+        "bedding",
+        "curtains",
+        "bundles"
+      ],
+      "custom_css": [],
+      "settings": {
+        "eyebrow": "Shop by Category",
+        "heading": "Elevate Every Space",
+        "subheading": "From restful sleep to refined living, discover thoughtfully curated pieces for a more beautiful home.",
+        "background": "default"
+      }
+    },
+    "quiz": {
+      "type": "quiz-banner",
+      "settings": {
+        "image": "shopify://shop_images/Find_the_mattress.png",
+        "eyebrow": "Not sure what you need?",
+        "heading": "Take our 60-second sleep quiz",
+        "text": "Find your perfect mattress in minutes.",
+        "button_label": "Find my mattress",
+        "button_link": "shopify://pages/finder"
+      }
+    },
+    "rooms": {
+      "type": "shop-the-room",
+      "blocks": {
+        "hotel": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/tHE_hOTEL_BEDROOM.png",
+            "title": "The Hotel Bedroom",
+            "link_label": "Shop now",
+            "link": "shopify://collections/the-hotel-bedroom"
+          }
+        },
+        "couples": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/Couple_room.png",
+            "title": "The Couple's Bedroom",
+            "link_label": "Shop now",
+            "link": "shopify://collections/the-couples-bedroom"
+          }
+        },
+        "minimalist": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/Minimalist_BD.png",
+            "title": "The Minimalist Bedroom",
+            "link_label": "Shop now",
+            "link": "shopify://collections/the-minimalist-bedroom"
+          }
+        },
+        "first": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/First_home.png",
+            "title": "The First Home",
+            "link_label": "Shop now",
+            "link": "shopify://collections/the-first-home"
+          }
+        }
+      },
+      "block_order": [
+        "hotel",
+        "couples",
+        "minimalist",
+        "first"
+      ],
+      "settings": {
+        "heading": "Shop the Room",
+        "subheading": "Curated rooms. Designed for you.",
+        "background": "default"
+      }
+    },
+    "bestsellers": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Best sellers",
+        "subheading": "",
+        "collection": "best-sellers",
+        "view_all_link": "shopify://collections/frontpage",
+        "product_limit": 8,
+        "layout": "carousel",
+        "background": "surface"
+      }
+    },
+    "featured_beds": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Shop Beds",
+        "subheading": "Statement frames for every bedroom",
+        "collection": "beds",
+        "view_all_link": "shopify://collections/beds",
+        "product_limit": 8,
+        "layout": "carousel",
+        "background": "default"
+      }
+    },
+    "featured_pillows": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Shop Pillows",
+        "subheading": "Find your fit, from soft to supportive",
+        "collection": "pillows",
+        "view_all_link": "shopify://collections/pillows",
+        "product_limit": 8,
+        "layout": "carousel",
+        "background": "surface"
+      }
+    },
+    "featured_duvets": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Shop Duvets",
+        "subheading": "Breathable warmth for UAE nights",
+        "collection": "duvets",
+        "view_all_link": "shopify://collections/duvets",
+        "product_limit": 8,
+        "layout": "carousel",
+        "background": "default"
+      }
+    },
+    "featured_curtains": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Shop Curtains",
+        "subheading": "Made-to-measure window treatments",
+        "collection": "curtains",
+        "view_all_link": "shopify://collections/curtains",
+        "product_limit": 8,
+        "layout": "carousel",
+        "background": "surface"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "one": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": "",
+            "location": "Dubai",
+            "rating": 5
+          }
+        },
+        "two": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": "",
+            "location": "Abu Dhabi",
+            "rating": 5
+          }
+        },
+        "three": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "",
+            "author": "",
+            "location": "Sharjah",
+            "rating": 5
+          }
+        }
+      },
+      "block_order": [
+        "one",
+        "two",
+        "three"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "Loved across the UAE",
+        "subheading": "",
+        "background": "default"
+      }
+    },
+    "values": {
+      "type": "value-props",
+      "blocks": {
+        "quality": {
+          "type": "prop",
+          "settings": {
+            "title": "Premium Quality",
+            "text": "Built to last",
+            "icon": "sparkle"
+          }
+        },
+        "support": {
+          "type": "prop",
+          "settings": {
+            "title": "Expert Support",
+            "text": "We're here to help",
+            "icon": "headset"
+          }
+        },
+        "secure": {
+          "type": "prop",
+          "settings": {
+            "title": "Secure Payments",
+            "text": "100% safe & secure",
+            "icon": "lock"
+          }
+        },
+        "sustainable": {
+          "type": "prop",
+          "settings": {
+            "title": "Sustainable Choice",
+            "text": "Better for our planet",
+            "icon": "leaf"
+          }
+        }
+      },
+      "block_order": [
+        "quality",
+        "support",
+        "secure",
+        "sustainable"
+      ],
+      "settings": {
+        "background": "surface"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "categories",
+    "quiz",
+    "rooms",
+    "bestsellers",
+    "featured_beds",
+    "featured_pillows",
+    "featured_duvets",
+    "featured_curtains",
+    "testimonials",
+    "values"
+  ]
+}

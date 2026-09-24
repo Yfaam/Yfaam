@@ -1,0 +1,34 @@
+{%- if request.page_type == 'product' -%}
+  {%- assign og_title = product.title -%}
+  {%- assign og_description = product.description | strip_html | truncatewords: 30 -%}
+  {%- assign og_image = product.featured_media -%}
+  {%- assign og_type = 'product' -%}
+{%- elsif request.page_type == 'collection' -%}
+  {%- assign og_title = collection.title -%}
+  {%- assign og_description = collection.description | strip_html | truncatewords: 30 -%}
+  {%- assign og_image = collection.featured_image -%}
+  {%- assign og_type = 'website' -%}
+{%- else -%}
+  {%- assign og_title = page_title -%}
+  {%- assign og_description = page_description -%}
+  {%- assign og_type = 'website' -%}
+{%- endif -%}
+
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ og_title | escape }}">
+<meta property="og:type" content="{{ og_type }}">
+<meta property="og:description" content="{{ og_description | escape }}">
+{%- if og_image -%}
+  <meta property="og:image" content="http:{{ og_image | image_url: width: 1200 }}">
+  <meta property="og:image:width" content="1200">
+{%- endif -%}
+{%- if request.page_type == 'product' -%}
+  <meta property="product:price:amount" content="{{ product.selected_or_first_available_variant.price | divided_by: 100.0 }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ og_title | escape }}">
+<meta name="twitter:description" content="{{ og_description | escape }}">
+
+{% render 'organization-schema' %}

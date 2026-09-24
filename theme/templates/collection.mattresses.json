@@ -1,0 +1,86 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "subcategory_carousel_F7ixdk": {
+      "type": "subcategory-carousel",
+      "blocks": {
+        "category_JFA6tc": {
+          "type": "category",
+          "settings": {
+            "label": "Memory Foam Mattresses",
+            "link": "/collections/memory-foam-mattresses",
+            "image": "shopify://shop_images/Memory_foam_mattresss_collection.jpg"
+          }
+        },
+        "category_3pctFj": {
+          "type": "category",
+          "settings": {
+            "label": "Pocket Spring Mattresses",
+            "link": "/collections/pocket-spring-mattresses",
+            "image": "shopify://shop_images/pocketed_spring_matress_collection.jpg"
+          }
+        },
+        "category_PnGEVb": {
+          "type": "category",
+          "settings": {
+            "label": "Natural Latex Mattresses",
+            "link": "/collections/latex-mattresses-1",
+            "image": "shopify://shop_images/Latex_mattress_collection.jpg"
+          }
+        },
+        "category_toppers": {
+          "type": "category",
+          "settings": {
+            "label": "Mattress Toppers",
+            "link": "/collections/mattress-toppers",
+            "image": "shopify://shop_images/Firm_mattress_ecommerce_collecti__202608261924.jpg"
+          }
+        },
+        "category_protectors": {
+          "type": "category",
+          "settings": {
+            "label": "Mattress Protectors",
+            "link": "/collections/mattress-protectors",
+            "image": "shopify://shop_images/Firm_mattress_ecommerce_collecti__202608261932.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "category_JFA6tc",
+        "category_3pctFj",
+        "category_PnGEVb",
+        "category_toppers",
+        "category_protectors"
+      ],
+      "name": "Sub-category carousel",
+      "settings": {
+        "heading": ""
+      }
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "show_trust_bar": true,
+        "show_help_banner": true,
+        "help_image": "shopify://shop_images/whatsapp_chat_2.png",
+        "help_heading": "Still confused?",
+        "help_text": "Let our experts help you choose the right mattress.",
+        "help_button_label": "Chat on WhatsApp",
+        "show_quiz_strip": true,
+        "quiz_link": ""
+      }
+    }
+  },
+  "order": [
+    "subcategory_carousel_F7ixdk",
+    "main"
+  ]
+}
