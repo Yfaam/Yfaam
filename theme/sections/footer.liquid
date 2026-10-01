@@ -68,22 +68,38 @@
       {%- endfor -%}
 
       <div>
-        <h2 class="footer__title">{{ section.settings.social_title }}</h2>
+        {%- comment -%}
+          One icon per profile link set under Theme settings → Social media.
+          Platform order is the order shoppers in the UAE use them most. The
+          heading only renders when at least one link is set, so an empty
+          column never shows a stray "Follow us".
+        {%- endcomment -%}
+        {%- liquid
+          assign social_platforms = 'instagram,facebook,tiktok,snapchat,youtube,x,pinterest' | split: ','
+          assign social_names = 'Instagram,Facebook,TikTok,Snapchat,YouTube,X,Pinterest' | split: ','
+          assign has_social = false
+          for platform in social_platforms
+            assign setting_key = 'social_' | append: platform | append: '_link'
+            if settings[setting_key] != blank
+              assign has_social = true
+              break
+            endif
+          endfor
+        -%}
 
-        <div class="social-links">
-          {%- if settings.social_instagram_link != blank -%}
-            <a href="{{ settings.social_instagram_link }}" aria-label="Instagram" target="_blank" rel="noopener">{% render 'icon', name: 'instagram' %}</a>
-          {%- endif -%}
-          {%- if settings.social_facebook_link != blank -%}
-            <a href="{{ settings.social_facebook_link }}" aria-label="Facebook" target="_blank" rel="noopener">{% render 'icon', name: 'facebook' %}</a>
-          {%- endif -%}
-          {%- if settings.social_tiktok_link != blank -%}
-            <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok" target="_blank" rel="noopener">{% render 'icon', name: 'tiktok' %}</a>
-          {%- endif -%}
-          {%- if settings.social_youtube_link != blank -%}
-            <a href="{{ settings.social_youtube_link }}" aria-label="YouTube" target="_blank" rel="noopener">{% render 'icon', name: 'youtube' %}</a>
-          {%- endif -%}
-        </div>
+        {%- if has_social -%}
+          <h2 class="footer__title">{{ section.settings.social_title | default: 'Follow us' }}</h2>
+
+          <div class="social-links">
+            {%- for platform in social_platforms -%}
+              {%- assign setting_key = 'social_' | append: platform | append: '_link' -%}
+              {%- assign social_url = settings[setting_key] -%}
+              {%- if social_url != blank -%}
+                <a href="{{ social_url }}" aria-label="MAYF Home on {{ social_names[forloop.index0] }} (opens in a new tab)" target="_blank" rel="noopener noreferrer">{% render 'icon', name: platform %}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
 
         {%- if section.settings.show_payment_icons -%}
           <h2 class="footer__title" style="margin-top: var(--space-5)">{{ 'sections.footer.payments' | t }}</h2>

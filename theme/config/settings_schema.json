@@ -131,10 +131,14 @@
   {
     "name": "Social media",
     "settings": [
+      { "type": "paragraph", "content": "Paste the full profile link, e.g. https://www.instagram.com/yourhandle. Each one that's filled in shows as an icon in the footer; leave a field empty to hide that icon." },
       { "type": "url", "id": "social_instagram_link", "label": "Instagram" },
       { "type": "url", "id": "social_facebook_link", "label": "Facebook" },
       { "type": "url", "id": "social_tiktok_link", "label": "TikTok" },
-      { "type": "url", "id": "social_youtube_link", "label": "YouTube" }
+      { "type": "url", "id": "social_snapchat_link", "label": "Snapchat" },
+      { "type": "url", "id": "social_youtube_link", "label": "YouTube" },
+      { "type": "url", "id": "social_x_link", "label": "X (Twitter)" },
+      { "type": "url", "id": "social_pinterest_link", "label": "Pinterest" }
     ]
   },
   {
