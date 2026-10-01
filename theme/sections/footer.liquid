@@ -1,0 +1,153 @@
+{% comment %}
+  Footer.
+
+  The last thing on the page is another set of promises, not just links —
+  recency effect. A shopper who scrolls the whole way down without buying is
+  usually looking for a reason to trust, and this is where they find it.
+{% endcomment %}
+
+{%- if section.settings.show_trust_bar -%}
+  <div class="page-width" style="padding-block: var(--space-5)">
+    {% render 'trust-badges', boxed: true %}
+  </div>
+{%- endif -%}
+
+<footer class="footer">
+  <div class="page-width">
+    <div class="footer__grid">
+      <div>
+        <a class="header__logo" href="{{ routes.root_url }}" style="margin-bottom: var(--space-4)">
+          <span class="header__logo-mark">{{ section.settings.logo_text | default: 'mayfhome' }}</span>
+          {%- if section.settings.logo_subtext != blank -%}
+            <span class="header__logo-sub">{{ section.settings.logo_subtext }}</span>
+          {%- endif -%}
+        </a>
+
+        <p class="text-sm text-muted" style="max-width: 34ch; margin-top: var(--space-4)">
+          {{ section.settings.about_text }}
+        </p>
+
+        {%- if settings.whatsapp_number != blank -%}
+          <div style="margin-top: var(--space-4)">
+            {% render 'whatsapp-link', class: 'btn--sm' %}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            <div {{ block.shopify_attributes }}>
+              <h2 class="footer__title">{{ block.settings.title }}</h2>
+              <ul class="footer__links">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+
+          {%- when 'contact' -%}
+            <div {{ block.shopify_attributes }}>
+              <h2 class="footer__title">{{ block.settings.title }}</h2>
+              <ul class="footer__links">
+                {%- if block.settings.phone != blank -%}
+                  <li><a href="tel:{{ block.settings.phone | remove: ' ' }}">{{ block.settings.phone }}</a></li>
+                {%- endif -%}
+                {%- if block.settings.email != blank -%}
+                  <li><a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a></li>
+                {%- endif -%}
+                {%- if block.settings.address != blank -%}
+                  <li class="text-muted">{{ block.settings.address }}</li>
+                {%- endif -%}
+                {%- if block.settings.hours != blank -%}
+                  <li class="text-muted">{{ block.settings.hours }}</li>
+                {%- endif -%}
+              </ul>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+
+      <div>
+        <h2 class="footer__title">{{ section.settings.social_title }}</h2>
+
+        <div class="social-links">
+          {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}" aria-label="Instagram" target="_blank" rel="noopener">{% render 'icon', name: 'instagram' %}</a>
+          {%- endif -%}
+          {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}" aria-label="Facebook" target="_blank" rel="noopener">{% render 'icon', name: 'facebook' %}</a>
+          {%- endif -%}
+          {%- if settings.social_tiktok_link != blank -%}
+            <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok" target="_blank" rel="noopener">{% render 'icon', name: 'tiktok' %}</a>
+          {%- endif -%}
+          {%- if settings.social_youtube_link != blank -%}
+            <a href="{{ settings.social_youtube_link }}" aria-label="YouTube" target="_blank" rel="noopener">{% render 'icon', name: 'youtube' %}</a>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_payment_icons -%}
+          <h2 class="footer__title" style="margin-top: var(--space-5)">{{ 'sections.footer.payments' | t }}</h2>
+          <div class="payment-icons">
+            {%- for type in shop.enabled_payment_types -%}
+              {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'sections.footer.rights' | t }}</span>
+      <span>{{ powered_by_link }}</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "logo_text", "label": "Wordmark", "default": "mayfhome" },
+    { "type": "text", "id": "logo_subtext", "label": "Wordmark sub-line", "default": "Bring Hotel Comfort Home" },
+    {
+      "type": "textarea",
+      "id": "about_text",
+      "label": "About text",
+      "default": "Mattresses, bedding, beds and made-to-measure curtains for UAE homes. From AED 90."
+    },
+    { "type": "text", "id": "social_title", "label": "Social heading", "default": "Follow us" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "checkbox", "id": "show_trust_bar", "label": "Show trust bar above footer", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact column",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Get in touch" },
+        { "type": "text", "id": "phone", "label": "Phone" },
+        { "type": "text", "id": "email", "label": "Email" },
+        { "type": "textarea", "id": "address", "label": "Address" },
+        { "type": "text", "id": "hours", "label": "Opening hours" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "menu", "settings": { "title": "Shop" } },
+      { "type": "menu", "settings": { "title": "Help" } },
+      { "type": "contact", "settings": { "title": "Get in touch" } }
+    ]
+  }
+}
+{% endschema %}

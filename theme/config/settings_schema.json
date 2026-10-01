@@ -1,0 +1,158 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "MAYF Home",
+    "theme_version": "1.0.0",
+    "theme_author": "MAYF Home",
+    "theme_documentation_url": "https://mayfhome.com",
+    "theme_support_url": "https://mayfhome.com/pages/contact"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Square image, 96 x 96 px or larger. Shown in the browser tab and when the store is saved to a phone home screen."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Surfaces" },
+      { "type": "color", "id": "color_background", "label": "Page background", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_surface", "label": "Warm surface (sections, cards)", "default": "#FAF7F2" },
+      { "type": "color", "id": "color_sand", "label": "Sand accent", "default": "#E9DFCE" },
+      { "type": "color", "id": "color_border", "label": "Borders", "default": "#E6E1D8" },
+      { "type": "header", "content": "Text" },
+      { "type": "color", "id": "color_text", "label": "Primary text", "default": "#141414" },
+      { "type": "color", "id": "color_text_muted", "label": "Secondary text", "default": "#6B6660" },
+      { "type": "header", "content": "Action" },
+      { "type": "color", "id": "color_button", "label": "Primary button", "default": "#141414" },
+      { "type": "color", "id": "color_button_text", "label": "Primary button text", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_button_secondary", "label": "Secondary button (Buy now)", "default": "#E9DFCE" },
+      { "type": "color", "id": "color_accent", "label": "Accent / rating", "default": "#C8873B" },
+      { "type": "color", "id": "color_success", "label": "Success (in stock, savings)", "default": "#2F7A55" },
+      { "type": "color", "id": "color_urgency", "label": "Urgency (low stock, cut-off)", "default": "#B4462E" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "font_heading", "label": "Headings", "default": "assistant_n4" },
+      { "type": "font_picker", "id": "font_body", "label": "Body", "default": "assistant_n4" },
+      { "type": "range", "id": "font_size_base", "min": 14, "max": 18, "step": 1, "unit": "px", "label": "Base font size", "default": 16 },
+      { "type": "range", "id": "heading_scale", "min": 90, "max": 130, "step": 5, "unit": "%", "label": "Heading scale", "default": 100 }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "min": 1100, "max": 1600, "step": 20, "unit": "px", "label": "Page width", "default": 1440 },
+      { "type": "range", "id": "corner_radius", "min": 0, "max": 16, "step": 2, "unit": "px", "label": "Corner radius", "default": 4 }
+    ]
+  },
+  {
+    "name": "Trust & risk reversal — Mattresses",
+    "settings": [
+      { "type": "paragraph", "content": "These promises appear on mattress product pages, mattress collections, and anywhere no product/collection context is available (header, cart). They describe the mattress trial and warranty specifically — keep them true to the returns policy for mattresses, which includes a AED 250 collection charge on trial returns." },
+      { "type": "text", "id": "promise_1_title", "label": "Promise 1 title", "default": "100 Nights" },
+      { "type": "text", "id": "promise_1_text", "label": "Promise 1 text", "default": "Sleep Trial" },
+      { "type": "text", "id": "promise_2_title", "label": "Promise 2 title", "default": "10 Years" },
+      { "type": "text", "id": "promise_2_text", "label": "Promise 2 text", "default": "Warranty" },
+      { "type": "text", "id": "promise_3_title", "label": "Promise 3 title", "default": "Free Delivery" },
+      { "type": "text", "id": "promise_3_text", "label": "Promise 3 text", "default": "Across UAE" },
+      { "type": "text", "id": "promise_4_title", "label": "Promise 4 title", "default": "Trial Returns" },
+      { "type": "text", "id": "promise_4_text", "label": "Promise 4 text", "default": "AED 250 Collection Fee" }
+    ]
+  },
+  {
+    "name": "Trust & risk reversal — Bedding",
+    "settings": [
+      { "type": "paragraph", "content": "Bedding (duvets, covers, sheets, pillows, protectors, toppers) has no sleep trial or 10-year warranty — it follows the standard 14-day returns policy and is not automatically free to ship. These promises replace the mattress ones on bedding product and collection pages." },
+      { "type": "text", "id": "bedding_promise_1_title", "label": "Promise 1 title", "default": "14 Days" },
+      { "type": "text", "id": "bedding_promise_1_text", "label": "Promise 1 text", "default": "Easy Returns" },
+      { "type": "text", "id": "bedding_promise_2_title", "label": "Promise 2 title", "default": "Easy Care" },
+      { "type": "text", "id": "bedding_promise_2_text", "label": "Promise 2 text", "default": "Machine Washable" },
+      { "type": "text", "id": "bedding_promise_3_title", "label": "Promise 3 title", "default": "Free Delivery" },
+      { "type": "text", "id": "bedding_promise_3_text", "label": "Promise 3 text", "default": "On Orders AED 500+" },
+      { "type": "text", "id": "bedding_promise_4_title", "label": "Promise 4 title", "default": "Secure Payment" },
+      { "type": "text", "id": "bedding_promise_4_text", "label": "Promise 4 text", "default": "Cards, Tabby & Tamara" }
+    ]
+  },
+  {
+    "name": "Trust & risk reversal — Curtains",
+    "settings": [
+      { "type": "paragraph", "content": "Curtains are made to measure, so a sleep-trial or same-week delivery promise doesn't apply. These promises replace the mattress ones on curtain product and collection pages." },
+      { "type": "text", "id": "curtain_promise_1_title", "label": "Promise 1 title", "default": "Free" },
+      { "type": "text", "id": "curtain_promise_1_text", "label": "Promise 1 text", "default": "Home Measurement" },
+      { "type": "text", "id": "curtain_promise_2_title", "label": "Promise 2 title", "default": "Professional" },
+      { "type": "text", "id": "curtain_promise_2_text", "label": "Promise 2 text", "default": "Installation" },
+      { "type": "text", "id": "curtain_promise_3_title", "label": "Promise 3 title", "default": "4-5 Days" },
+      { "type": "text", "id": "curtain_promise_3_text", "label": "Promise 3 text", "default": "Made to Measure" },
+      { "type": "text", "id": "curtain_promise_4_title", "label": "Promise 4 title", "default": "Secure Payment" },
+      { "type": "text", "id": "curtain_promise_4_text", "label": "Promise 4 text", "default": "Cards, Tabby & Tamara" }
+    ]
+  },
+  {
+    "name": "Urgency & scarcity",
+    "settings": [
+      { "type": "paragraph", "content": "Only show scarcity you can prove. Low-stock messages read live inventory; the delivery cut-off reads your real dispatch time. The countdown is hidden automatically on made-to-measure products (curtains) — set a separate delivery line for them below." },
+      { "type": "checkbox", "id": "show_low_stock", "label": "Show low stock message", "default": true },
+      { "type": "range", "id": "low_stock_threshold", "min": 1, "max": 25, "step": 1, "label": "Low stock threshold", "default": 5 },
+      { "type": "checkbox", "id": "show_delivery_countdown", "label": "Show delivery cut-off countdown", "default": true },
+      { "type": "range", "id": "dispatch_cutoff_hour", "min": 9, "max": 22, "step": 1, "label": "Daily dispatch cut-off (store time, 24h)", "default": 16 },
+      { "type": "text", "id": "delivery_promise_text", "label": "Delivery promise (stocked items)", "info": "Shown on stocked, non-made-to-measure products only. Match the actual shipping policy — do not promise next-day delivery unless dispatch is genuinely next-day.", "default": "Order within {{ time }} for delivery in 2-3 working days" },
+      { "type": "text", "id": "made_to_order_delivery_text", "label": "Delivery promise (made-to-measure items)", "info": "Shown instead of the countdown on curtains and other made-to-order products.", "default": "Made to measure — delivered and installed in 4-5 working days" }
+    ]
+  },
+  {
+    "name": "Cart & checkout",
+    "settings": [
+      { "type": "checkbox", "id": "cart_drawer_enabled", "label": "Open cart drawer on add", "info": "Keeps the shopper on the page instead of interrupting the browse flow.", "default": true },
+      { "type": "checkbox", "id": "show_free_shipping_bar", "label": "Show free shipping progress bar", "default": true },
+      { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping threshold (AED)", "default": 500 },
+      { "type": "checkbox", "id": "show_installments", "label": "Show Tabby / Tamara instalment framing", "default": true },
+      { "type": "range", "id": "installment_count", "min": 3, "max": 6, "step": 1, "label": "Number of instalments", "default": 4 },
+      { "type": "checkbox", "id": "cart_show_express_checkout", "label": "Show express checkout buttons", "default": true }
+    ]
+  },
+  {
+    "name": "Support",
+    "settings": [
+      { "type": "text", "id": "whatsapp_number", "label": "WhatsApp number", "info": "International format, digits only — country code, no plus sign, no leading zero. A UAE 054 number becomes 97154…", "default": "971541470477" },
+      { "type": "text", "id": "whatsapp_message", "label": "Pre-filled WhatsApp message", "default": "Hi MAYF Home, I need help choosing a mattress." },
+      { "type": "checkbox", "id": "show_whatsapp_bubble", "label": "Show floating WhatsApp button", "default": true },
+      { "type": "url", "id": "quiz_url", "label": "Sleep quiz URL" }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "url", "id": "social_instagram_link", "label": "Instagram" },
+      { "type": "url", "id": "social_facebook_link", "label": "Facebook" },
+      { "type": "url", "id": "social_tiktok_link", "label": "TikTok" },
+      { "type": "url", "id": "social_youtube_link", "label": "YouTube" }
+    ]
+  },
+  {
+    "name": "Product cards",
+    "settings": [
+      { "type": "checkbox", "id": "card_show_rating", "label": "Show rating", "default": true },
+      { "type": "checkbox", "id": "card_show_second_image", "label": "Swap to second image on hover", "default": true },
+      { "type": "checkbox", "id": "card_show_quick_add", "label": "Show quick add", "default": true },
+      {
+        "type": "select",
+        "id": "card_price_prefix",
+        "label": "Price framing",
+        "options": [
+          { "value": "from", "label": "From AED 2,199" },
+          { "value": "plain", "label": "AED 2,199" }
+        ],
+        "default": "from"
+      }
+    ]
+  }
+]

@@ -1,0 +1,67 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Sleep better, starting tonight",
+        "text": "Get our free sleep guide plus early access to offers. No spam — just what helps you rest.",
+        "button_label": "Send it to me",
+        "disclaimer": "Unsubscribe any time."
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": {
+          "type": "menu",
+          "settings": {
+            "title": "Shop",
+            "menu": "main-menu"
+          }
+        },
+        "help": {
+          "type": "menu",
+          "settings": {
+            "title": "Help",
+            "menu": "footer"
+          }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "title": "Get in touch",
+            "phone": "+971 54 147 0477",
+            "hours": "Sat–Thu, 9am–9pm"
+          }
+        }
+      },
+      "block_order": [
+        "shop",
+        "help",
+        "contact"
+      ],
+      "settings": {
+        "logo_text": "mayfhome",
+        "logo_subtext": "Bring Hotel Comfort Home",
+        "about_text": "Mattresses, bedding, beds and made-to-measure curtains for UAE homes. From AED 90.",
+        "show_payment_icons": true,
+        "show_trust_bar": true
+      }
+    }
+  },
+  "order": [
+    "newsletter",
+    "footer"
+  ]
+}
