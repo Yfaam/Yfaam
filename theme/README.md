@@ -31,6 +31,9 @@ shopify theme push --theme 194249392500 --nodelete \
 | FAQs | new `sections/home-faq.liquid`, answers taken from the shipping and returns policy pages, with FAQPage schema |
 | Arabic | all new copy is in `locales/ar.json` (`sections.home.*`); first draft, needs native review |
 
+## Status
+Uploaded to theme 194249392500 (unpublished) on 2026-10-03; all files verified byte-identical to this folder. The live theme was not touched.
+
 ## Not done here
 Essential/Signature/Luxe comparison (needs real specs), customer reviews / UGC (needs real data, testimonials
 section stays disabled), Arabic for existing sections' settings (hero, category and carousel headings, newsletter):
