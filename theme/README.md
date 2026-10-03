@@ -45,7 +45,7 @@ New files: `sections/whatsapp-cta.liquid` (WhatsApp card with prefilled message)
 (page content, WhatsApp card, then the native contact-form booking section with curtain-type labels),
 and new `sections.home.visit_*` strings in both locale files.
 
-Deploy to a DUPLICATE (not the live theme): Themes -> live theme -> ... -> Duplicate, then
+Uploaded to draft theme 194249392500 on 3 Oct 2026 and the page template set to `book-visit`. Re-deploy only if files change; push to a draft theme, never the live one.
 ```sh
 shopify theme push --theme <DUPLICATE_ID> --nodelete \
   --only sections/whatsapp-cta.liquid --only templates/page.book-visit.json \
