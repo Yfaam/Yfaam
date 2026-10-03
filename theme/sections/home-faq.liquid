@@ -1,0 +1,96 @@
+{% comment %}
+  Homepage FAQ. Answers the objections that stop a purchase, using the wording
+  of the shipping and returns policies. Questions and answers come from the
+  locale files (sections.home.faq_q_N / faq_a_N) so Arabic is automatic, and
+  are mirrored into FAQPage structured data. Built on <details>: no JS needed.
+{% endcomment %}
+
+<section class="section {% if section.settings.background == 'surface' %}section--surface{% endif %} home-faq" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <div class="home-faq__inner">
+      <h2 class="home-faq__heading">{{ 'sections.home.faq_heading' | t }}</h2>
+
+      <div class="home-faq__list">
+        {%- for i in (1..9) -%}
+          {%- liquid
+            assign q_key = 'sections.home.faq_q_' | append: i
+            assign a_key = 'sections.home.faq_a_' | append: i
+          -%}
+          <details class="home-faq__item">
+            <summary class="home-faq__q">
+              <span>{{ q_key | t }}</span>
+              <span class="home-faq__sign" aria-hidden="true">{% render 'icon', name: 'chevron-down' %}</span>
+            </summary>
+            <div class="home-faq__a"><p>{{ a_key | t }}</p></div>
+          </details>
+        {%- endfor -%}
+      </div>
+
+      <div class="home-faq__contact">
+        <div>
+          <p class="home-faq__contact-title">{{ 'sections.home.faq_contact_title' | t }}</p>
+          <p class="home-faq__contact-text">{{ 'sections.home.faq_contact_text' | t }}</p>
+        </div>
+        {% render 'whatsapp-link' %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for i in (1..9) -%}
+      {%- liquid
+        assign q_key = 'sections.home.faq_q_' | append: i
+        assign a_key = 'sections.home.faq_a_' | append: i
+      -%}
+      {
+        "@type": "Question",
+        "name": {{ q_key | t | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ a_key | t | json }} }
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% stylesheet %}
+  .home-faq__inner { max-width: 860px; margin-inline: auto; }
+  .home-faq__heading { margin: 0 0 clamp(24px, 3vw, 36px); text-align: center; font-family: var(--font-heading); font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; }
+
+  .home-faq__item { border-bottom: 1px solid var(--color-border); }
+  .home-faq__item:first-child { border-top: 1px solid var(--color-border); }
+  .home-faq__q { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 4px; cursor: pointer; list-style: none; font-size: 1rem; font-weight: 600; }
+  .home-faq__q::-webkit-details-marker { display: none; }
+  .home-faq__sign { display: inline-flex; flex: none; transition: transform 0.25s ease; }
+  .home-faq__sign svg { width: 16px; height: 16px; }
+  .home-faq__item[open] .home-faq__sign { transform: rotate(180deg); }
+  .home-faq__a { padding: 0 4px 22px; color: var(--color-text-muted); line-height: 1.65; font-size: 0.92rem; }
+  .home-faq__a p { margin: 0; }
+
+  .home-faq__contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 30px; margin-top: clamp(26px, 3vw, 36px); padding: 24px; border-radius: var(--radius); background: var(--color-sand); text-align: center; }
+  .home-faq__contact-title { margin: 0; font-family: var(--font-heading); font-size: 1.05rem; }
+  .home-faq__contact-text { margin: 4px 0 0; font-size: 0.86rem; color: var(--color-text-muted); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Homepage FAQ",
+  "settings": [
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "default", "label": "White" },
+        { "value": "surface", "label": "Warm" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [{ "name": "Homepage FAQ" }]
+}
+{% endschema %}

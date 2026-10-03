@@ -1,0 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "favicon": "shopify://shop_images/favicon.jpg",
+    "color_background": "#FFFFFF",
+    "color_surface": "#FAF7F2",
+    "color_sand": "#E9DFCE",
+    "color_border": "#E6E1D8",
+    "color_text": "#141414",
+    "color_text_muted": "#6B6660",
+    "color_button": "#141414",
+    "color_button_text": "#FFFFFF",
+    "color_button_secondary": "#E9DFCE",
+    "color_accent": "#C8873B",
+    "color_success": "#2F7A55",
+    "color_urgency": "#B4462E",
+    "font_heading": "assistant_n4",
+    "font_body": "assistant_n4",
+    "font_size_base": 16,
+    "heading_scale": 100,
+    "page_width": 1200,
+    "corner_radius": 4,
+    "promise_1_title": "100 Nights",
+    "promise_1_text": "Sleep Trial",
+    "promise_2_title": "10 Years",
+    "promise_2_text": "Warranty",
+    "promise_3_title": "Free UAE Delivery",
+    "promise_3_text": "On Orders AED 500+",
+    "promise_4_title": "Trial Returns",
+    "promise_4_text": "AED 250 Collection Fee",
+    "bedding_promise_1_title": "14 Days",
+    "bedding_promise_1_text": "Easy Returns",
+    "bedding_promise_2_title": "Easy Care",
+    "bedding_promise_2_text": "Machine Washable",
+    "bedding_promise_3_title": "Free Delivery",
+    "bedding_promise_3_text": "On Orders AED 500+",
+    "bedding_promise_4_title": "Secure Payment",
+    "bedding_promise_4_text": "Cards, Tabby & Tamara",
+    "curtain_promise_1_title": "Free",
+    "curtain_promise_1_text": "Home Measurement",
+    "curtain_promise_2_title": "Professional",
+    "curtain_promise_2_text": "Installation",
+    "curtain_promise_3_title": "4-5 Days",
+    "curtain_promise_3_text": "Made to Measure",
+    "curtain_promise_4_title": "Secure Payment",
+    "curtain_promise_4_text": "Cards, Tabby & Tamara",
+    "show_low_stock": true,
+    "low_stock_threshold": 5,
+    "show_delivery_countdown": true,
+    "dispatch_cutoff_hour": 16,
+    "delivery_promise_text": "Order within {{ time }} for delivery in 2-3 working days",
+    "made_to_order_delivery_text": "Made to measure — delivered and installed in 4-5 working days",
+    "cart_drawer_enabled": true,
+    "show_free_shipping_bar": true,
+    "free_shipping_threshold": 500,
+    "show_installments": true,
+    "installment_count": 4,
+    "cart_show_express_checkout": true,
+    "whatsapp_number": "971541470477",
+    "whatsapp_message": "Hi MAYF Home, I need help choosing a mattress.",
+    "show_whatsapp_bubble": true,
+    "social_instagram_link": "https://www.instagram.com/mayf.home/",
+    "social_facebook_link": "https://www.facebook.com/profile.php?id=61594675904524",
+    "social_tiktok_link": "https://tiktok.com/@mayfhomes",
+    "social_youtube_link": "https://www.youtube.com/@MayfHome",
+    "card_show_rating": true,
+    "card_show_second_image": true,
+    "card_show_quick_add": true,
+    "card_price_prefix": "from",
+    "content_for_index": [],
+    "blocks": {
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      },
+      "2200952712151285029": {
+        "type": "shopify://apps/microsoft-clarity/blocks/brandAgents_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  }
+}

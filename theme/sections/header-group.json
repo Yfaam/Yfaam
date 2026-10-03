@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Bring Hotel Comfort Home — Free UAE Delivery on Orders AED 500+, 100 Nights to Decide",
+        "show_locale": true,
+        "language_label": "العربية",
+        "language_link": ""
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "promo_pgzU7B": {
+          "type": "promo",
+          "settings": {
+            "menu_item": "",
+            "product": "",
+            "heading": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "promo_pgzU7B"
+      ],
+      "settings": {
+        "logo": "shopify://shop_images/mayfhome_final_white_bg_61e8854c-c96b-4a39-8c01-0c39932b62bd.jpg",
+        "logo_width": 150,
+        "logo_text": "mayfhome",
+        "logo_subtext": "",
+        "menu": "main-menu",
+        "wishlist_url": "",
+        "sticky": true,
+        "featured_count": 2
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

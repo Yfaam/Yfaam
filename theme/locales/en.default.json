@@ -1,0 +1,283 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search for mattresses, beds, furniture…",
+      "submit": "Search",
+      "results_count": {
+        "one": "{{ count }} result for \"{{ terms }}\"",
+        "other": "{{ count }} results for \"{{ terms }}\""
+      },
+      "no_results_title": "No results found",
+      "no_results_text": "Try a different search, or let one of our experts point you in the right direction."
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "breadcrumbs": {
+      "label": "Breadcrumbs",
+      "home": "Home"
+    },
+    "carousel": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "whatsapp": {
+      "aria": "Chat with us on WhatsApp",
+      "chat_now": "Chat on WhatsApp"
+    },
+    "wishlist": "Wishlist"
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "close": "Close",
+    "menu": "Menu",
+    "main_nav": "Main navigation"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "add": "Add",
+      "quick_add": "Quick add",
+      "choose_options": "Choose options",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "added": "Added to your cart",
+      "from": "From",
+      "save": "Save {{ amount }}",
+      "in_stock": "In stock",
+      "low_stock": {
+        "one": "Only {{ count }} left",
+        "other": "Only {{ count }} left"
+      },
+      "size_guide": "Size guide",
+      "recommended": "Popular",
+      "reviews": "reviews",
+      "rating_aria": "Rated {{ rating }} out of 5 from {{ count }} reviews",
+      "media_thumb": "Show image {{ index }}",
+      "add_to_wishlist": "Add to wishlist",
+      "installments": "or {{ count }} payments of {{ amount }} with",
+      "material_label": "Material:",
+      "quote_after_measurement": "Quoted after free measurement"
+    },
+    "badges": {
+      "bestseller": "Bestseller",
+      "most_popular": "Most popular",
+      "new": "New",
+      "save_percent": "Save {{ percent }}%"
+    },
+    "tabs": {
+      "description": "Description",
+      "features": "Features",
+      "specifications": "Specifications",
+      "delivery": "Delivery & returns",
+      "reviews": "Reviews"
+    },
+    "specs": {
+      "type": "Type",
+      "sku": "SKU",
+      "weight": "Weight"
+    }
+  },
+  "collections": {
+    "general": {
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "no_matches_title": "No products match those filters",
+      "no_matches_text": "Try removing a filter, or tell us what you need and we'll find it for you."
+    },
+    "facets": {
+      "title": "Filter by",
+      "clear_all": "Clear all",
+      "apply": "Apply filters",
+      "price_min": "Minimum price",
+      "price_max": "Maximum price"
+    },
+    "sorting": {
+      "label": "Sort by",
+      "prefix": "Sort by"
+    },
+    "quiz": {
+      "step_1": "Not sure which mattress is right for you?",
+      "step_2": "Try our 60-second mattress finder",
+      "step_3": "Get a personalised recommendation",
+      "step_4": "Sleep better tonight",
+      "cta": "Find my mattress"
+    },
+    "list": {
+      "title": "Collections",
+      "count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      }
+    }
+  },
+  "sections": {
+    "cart": {
+      "title": "Cart",
+      "summary": "Order summary",
+      "empty": "Your cart is empty",
+      "empty_text": "Once you add something, it'll show up here.",
+      "continue_shopping": "Continue shopping",
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "shipping": "Shipping",
+      "shipping_at_checkout": "Calculated at checkout",
+      "taxes_note": "Taxes and shipping calculated at checkout.",
+      "checkout": "Secure checkout",
+      "view_cart": "View cart",
+      "quantity": "Quantity",
+      "increase": "Increase quantity",
+      "decrease": "Decrease quantity",
+      "remove": "Remove",
+      "note": "Add a note or delivery instructions",
+      "note_placeholder": "Preferred delivery day, building access, floor…",
+      "error": "Something went wrong. Please try again.",
+      "shipping_remaining": "You're {{ amount }} away from free delivery",
+      "shipping_reached": "You've unlocked free delivery across the UAE",
+      "reassurance_secure": "Secure, encrypted checkout",
+      "reassurance_delivery": "Free UAE delivery on orders over AED 500",
+      "reassurance_returns": "14-day easy returns",
+      "reassurance_installments": "Split into {{ count }} payments with Tabby or Tamara",
+      "express_or": "or check out with"
+    },
+    "featured": {
+      "view_all": "View all"
+    },
+    "newsletter": {
+      "placeholder": "Your email address",
+      "success": "Thanks — check your inbox."
+    },
+    "footer": {
+      "payments": "We accept",
+      "rights": "All rights reserved."
+    },
+    "home": {
+      "proof_trial_title": "100-Night Mattress Trial",
+      "proof_trial_text": "Sleep on it at home",
+      "proof_warranty_title": "10-Year Mattress Warranty",
+      "proof_warranty_text": "Against manufacturing faults",
+      "proof_delivery_title": "UAE Delivery & Assembly",
+      "proof_delivery_text": "To your room of choice, packaging removed",
+      "proof_pay_title": "Tabby & Tamara",
+      "proof_pay_text": "Split your purchase into payments",
+      "proof_whatsapp_title": "WhatsApp Experts",
+      "proof_whatsapp_text": "Ask us before you buy",
+      "need_eyebrow": "Shop by Need",
+      "need_heading": "What are you looking for?",
+      "need_text": "Start with what matters to you and we'll point you to the right range.",
+      "need_1": "Bring Hotel Sleep Home",
+      "need_2": "I Sleep Hot",
+      "need_3": "Back & Body Support",
+      "need_4": "Couples & Motion Isolation",
+      "need_5": "Kids & Growing Sleepers",
+      "need_6": "New Home Essentials",
+      "need_7": "Large Windows & Curtains",
+      "need_8": "Upgrade My Entire Bedroom",
+      "finder_eyebrow": "Not sure which mattress?",
+      "finder_title": "Find your match in 60 seconds.",
+      "finder_text": "Four quick questions about how you sleep, how it should feel, your build and your budget.",
+      "finder_button": "Find my mattress",
+      "shop_room": "Shop the complete look",
+      "room_meta": "{{ count }} pieces · from {{ price }}",
+      "curtain_eyebrow": "Made-to-measure curtains",
+      "curtain_title": "Perfect Fit. Measured & Installed.",
+      "curtain_text": "Free in-home measurement and professional installation across the UAE. Made to measure, delivered and installed in 4-5 working days.",
+      "curtain_estimate": "Get an Instant Estimate",
+      "curtain_visit": "Book Free Measurement",
+      "curtain_whatsapp": "WhatsApp a Curtain Expert",
+      "curtain_whatsapp_message": "Hi MAYF Home, I'd like help with curtains.",
+      "why_eyebrow": "Why MAYF Home",
+      "why_heading": "Elevated comfort. Considered prices.",
+      "why_1_title": "Designed for UAE Homes",
+      "why_1_text": "Breathable materials chosen for heat, humidity and air-conditioned rooms.",
+      "why_2_title": "Hotel-Inspired Comfort",
+      "why_2_text": "The feel of a hotel bedroom, made for your own.",
+      "why_3_title": "Considered Prices",
+      "why_3_text": "Priced with care across every category, with payment plans through Tabby and Tamara.",
+      "why_4_title": "Expert Local Support",
+      "why_4_text": "Real people on WhatsApp, from your first question to after-sales.",
+      "why_5_title": "Delivered & Installed",
+      "why_5_text": "Room-of-choice delivery, full assembly and packaging removed.",
+      "faq_heading": "Questions, answered",
+      "faq_q_1": "How does the 100-night trial work?",
+      "faq_a_1": "Sleep on your mattress at home for up to 100 nights. We ask you to sleep on it for at least 21 nights first, because your body needs two to three weeks to adjust. After that, and up to night 100, contact us and we will arrange collection and a refund, or a one-time exchange for a different model or firmness. A collection charge of AED 250 applies and is deducted from your refund.",
+      "faq_q_2": "What happens if I return a mattress?",
+      "faq_a_2": "Message us on WhatsApp and we will arrange collection. The mattress must be clean, undamaged and free of stains, so we recommend a mattress protector from the first night. An exchanged mattress comes with a further 7-night comfort period. The trial applies to one mattress per household.",
+      "faq_q_3": "What does the 10-year warranty cover?",
+      "faq_a_3": "Every MAYF mattress carries a 10-year warranty against manufacturing faults. The full terms are shown on each product page.",
+      "faq_q_4": "Is delivery free?",
+      "faq_a_4": "Delivery is free across the UAE on orders over AED 500. Orders under AED 500 carry a delivery charge, shown at checkout before you pay. Remote areas may carry an additional charge, which we confirm with you before dispatch.",
+      "faq_q_5": "Do you assemble beds?",
+      "faq_a_5": "Yes. Delivery includes full assembly of beds and furniture by our team, to the room of your choice. We also remove all packaging.",
+      "faq_q_6": "Do you remove old mattresses?",
+      "faq_a_6": "Old mattress removal is available on request. Tell us when you order and we will confirm any charge with you in advance.",
+      "faq_q_7": "How quickly do you deliver?",
+      "faq_a_7": "Orders placed before 4:00 PM are dispatched the same working day. Mattresses and bedding typically arrive in 2–3 working days, and beds and furniture in 5–6. Made-to-order items show their lead time on the product page. Deliveries to Umm Al Quwain, Ras Al Khaimah and Fujairah may take a day longer.",
+      "faq_q_8": "Can I pay with Tabby or Tamara?",
+      "faq_a_8": "Yes. Choose Tabby or Tamara at checkout to split your purchase into payments.",
+      "faq_q_9": "How do curtain measurements work?",
+      "faq_a_9": "We measure your windows at your home for free, with no obligation. You choose your fabric and style, and your made-to-measure curtains are delivered and installed in 4-5 working days. Prefer to start online? Try our price estimator.",
+      "faq_contact_title": "Still have a question?",
+      "faq_contact_text": "Message us on WhatsApp and a real person will reply."
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Account",
+      "logout": "Log out",
+      "orders": "Order history",
+      "no_orders": "You haven't placed an order yet.",
+      "address": "Address",
+      "manage_addresses": "Manage addresses"
+    },
+    "login": {
+      "title": "Log in",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "create_account": "Create an account"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "submit": "Create account"
+    },
+    "order": {
+      "title": "Order {{ name }}"
+    },
+    "reset_password": {
+      "title": "Reset password",
+      "confirm": "Confirm password",
+      "submit": "Reset password"
+    },
+    "activate_account": {
+      "title": "Activate account",
+      "submit": "Activate",
+      "decline": "Decline invitation"
+    }
+  },
+  "404": {
+    "title": "Page not found",
+    "text": "The page you're looking for has moved or no longer exists.",
+    "link": "Back to home"
+  }
+}

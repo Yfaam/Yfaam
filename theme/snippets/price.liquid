@@ -1,0 +1,60 @@
+{% comment %}
+  Price block.
+
+  Two decisions are baked in:
+  1. "From AED x" on cards — the lowest entry price is the anchor, so a range
+     of sizes never reads as expensive at first glance.
+  2. Compare-at price and the saving sit beside the price, already calculated.
+     Making the shopper do arithmetic is friction; showing the saving is a gain.
+
+  A price of exactly zero means "quoted after free measurement" (made-to-measure
+  curtains for large windows). Showing "AED 0.00" reads as an unfinished listing,
+  so say what actually happens instead.
+
+  Accepts: product (or variant), show_prefix, large, show_save
+{% endcomment %}
+
+{%- liquid
+  assign target = variant | default: product
+  if variant
+    assign price = variant.price
+    assign compare = variant.compare_at_price
+    assign is_range = false
+  else
+    assign price = product.price
+    assign compare = product.compare_at_price_max
+    assign is_range = false
+    if product.price_varies
+      assign is_range = true
+    endif
+  endif
+
+  assign on_sale = false
+  if compare > price
+    assign on_sale = true
+  endif
+-%}
+
+<div class="price {% if large %}price--large{% endif %}">
+  {%- if price == 0 -%}
+    <span class="price__current price__current--quote">{{ 'products.product.quote_after_measurement' | t }}</span>
+  {%- else -%}
+    {%- if show_prefix and is_range -%}
+      <span class="price__prefix">{{ 'products.product.from' | t }}</span>
+    {%- endif -%}
+
+    <span class="price__current">{{ price | money }}</span>
+
+    {%- if on_sale -%}
+      <s class="price__compare">{{ compare | money }}</s>
+      {%- if show_save -%}
+        {%- assign saving = compare | minus: price | money -%}
+        <span class="price__save">{{ 'products.product.save' | t: amount: saving }}</span>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if target.unit_price_measurement -%}
+      <span class="price__prefix">{{ target.unit_price | money }} / {{ target.unit_price_measurement.reference_value }}{{ target.unit_price_measurement.reference_unit }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</div>

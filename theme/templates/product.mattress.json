@@ -1,0 +1,69 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+/*
+ * Mattress product template.
+ *
+ * Assign this template to every mattress product (Shopify admin > Product >
+ * Theme template > product.mattress). It carries the mattress-specific
+ * construction, sleep-trial and warranty copy that must NOT appear on
+ * bedding, curtains, or any other non-mattress product — those use the
+ * default `product` template instead, which now ships generic, accurate
+ * copy only.
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": { "type": "title", "settings": { "show_vendor": false } },
+        "rating": { "type": "rating", "settings": {} },
+        "subtitle": { "type": "subtitle", "settings": { "text": "" } },
+        "price": { "type": "price", "settings": {} },
+        "variants": { "type": "variant_picker", "settings": { "size_option_name": "Size", "size_guide_page": "", "recommended_value": "" } },
+        "comfort": { "type": "comfort_meter", "settings": { "heading": "Firmness", "soft_label": "Soft", "mid_label": "Medium", "firm_label": "Firm" } },
+        "addons": { "type": "addons", "settings": { "heading": "Add protection", "note": "Recommended", "product_1": "", "product_2": "", "product_3": "" } },
+        "buy": { "type": "buy_buttons", "settings": { "show_quantity": true, "show_buy_now": true, "show_wishlist": true } },
+        "stock": { "type": "stock", "settings": {} },
+        "trust": { "type": "trust", "settings": {} },
+        "whatsapp": { "type": "whatsapp", "settings": { "label": "Ask a sleep expert", "message": "" } }
+      },
+      "block_order": ["title", "rating", "subtitle", "price", "variants", "comfort", "addons", "buy", "stock", "trust", "whatsapp"],
+      "settings": {
+        "help_heading": "Need help choosing?",
+        "help_text": "Chat with our sleep experts on WhatsApp.",
+        "help_button_label": "Chat now",
+        "benefits": "Balanced Support|7-zone pocket spring system for spinal alignment\nPressure Relief|High-density foam relieves pressure points\nMotion Isolation|Minimises partner disturbance\nBreathable & Cool|Airflow layers keep you cool all night\nDurable & Long Lasting|Premium materials built to last\n10 Year Warranty|Quality you can trust",
+        "construction_caption": "",
+        "materials_content": "<p>Quilted knit cover, gel-infused cooling foam, high-density comfort foam, and a 7-zone pocket spring core over a reinforced support base.</p>",
+        "show_size_guide": true,
+        "size_guide_content": "",
+        "qa_content": "How long does delivery take?|Delivery is free across the UAE on orders over AED 500, and mattresses typically arrive within 2-3 working days. We call ahead to confirm a delivery window.\nCan I try it first?|Sleep on it for 100 nights from delivery, after an initial 21-night adjustment period. If it's not right, we'll arrange a collection and exchange or refund - a AED 250 collection charge applies. See our full trial terms.\nDoes it need a base or slats?|It works on any flat, supportive surface: a slatted base, a platform bed or a solid divan.\nHow do I care for it?|Rotate it head to foot every three months. Do not flip it - the comfort layers are built one way up.",
+        "qa_cta_text": "Still have a question?",
+        "qa_cta_label": "Ask on WhatsApp",
+        "show_specs_tab": true,
+        "delivery_content": ""
+      }
+    },
+    "setup": { "type": "complete-the-setup", "settings": { "heading": "Complete Your Sleep Setup", "collection": "", "limit": 5, "background": "default" } },
+    "recently-viewed": { "type": "featured-products", "settings": { "heading": "Customers who viewed this also viewed", "subheading": "", "collection": "", "view_all_link": "", "product_limit": 5, "layout": "carousel", "background": "surface" } },
+    "1788661476d9cb6999": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_jW6wwV": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": { "review_data": "sample_data", "max_width": 1200, "show_shop_reviews": false, "empty_state": "empty_widget" }
+        }
+      },
+      "block_order": ["judge_me_reviews_review_widget_jW6wwV"],
+      "settings": {}
+    }
+  },
+  "order": ["main", "setup", "recently-viewed", "1788661476d9cb6999"]
+}

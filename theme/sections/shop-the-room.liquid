@@ -1,0 +1,142 @@
+{% comment %}
+  Shop the room.
+
+  Category tiles sell to people who know what they want; room scenes sell to
+  people who know how they want to live. Seeing a finished bedroom makes the
+  outcome concrete and pulls a single-item shopper toward a set — a mattress
+  becomes a mattress, bed frame and bedding.
+
+  When a room has a collection chosen, the card also states how many pieces it
+  contains and the lowest price, so the picture leads straight to products
+  with real numbers. Link label falls back to the translated default.
+{% endcomment %}
+
+{%- liquid
+  assign room_count = section.blocks.size
+  if room_count >= 5
+    assign track_size = 5
+  elsif room_count <= 3
+    assign track_size = 3
+  else
+    assign track_size = room_count
+  endif
+
+  assign default_label = 'sections.home.shop_room' | t
+-%}
+
+<section class="section {% if section.settings.background == 'surface' %}section--surface{% endif %}" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="section-subheading">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="carousel" data-carousel style="margin-top: var(--space-5)">
+      <button type="button" class="carousel__btn carousel__btn--prev" data-carousel-prev aria-label="{{ 'general.carousel.previous' | t }}" hidden>
+        {% render 'icon', name: 'chevron-left' %}
+      </button>
+
+      <div class="carousel__track carousel__track--{{ track_size }}" data-carousel-track>
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign card_label = block.settings.link_label
+            if card_label == blank
+              assign card_label = default_label
+            endif
+
+            assign room_collection = block.settings.collection
+            assign room_pieces = 0
+            assign room_from = 0
+            if room_collection != blank and room_collection.products_count > 0
+              assign room_pieces = room_collection.products_count
+              assign room_from = room_collection.products.first.price
+              for room_product in room_collection.products limit: 50
+                if room_product.price < room_from
+                  assign room_from = room_product.price
+                endif
+              endfor
+            endif
+          -%}
+          <a class="room-card" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 700 }}"
+                srcset="{{ block.settings.image | image_url: width: 400 }} 400w, {{ block.settings.image | image_url: width: 700 }} 700w"
+                sizes="(min-width: 990px) 280px, 62vw"
+                alt="{{ block.settings.title | escape }}"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+                loading="lazy">
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+
+            <div class="room-card__body">
+              <div class="room-card__title">{{ block.settings.title }}</div>
+              {%- if room_pieces > 0 -%}
+                {%- assign room_from_money = room_from | money -%}
+                <div class="room-card__meta">{{ 'sections.home.room_meta' | t: count: room_pieces, price: room_from_money }}</div>
+              {%- endif -%}
+              <div class="room-card__link">{{ card_label }}</div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      <button type="button" class="carousel__btn carousel__btn--next" data-carousel-next aria-label="{{ 'general.carousel.next' | t }}">
+        {% render 'icon', name: 'chevron-right' %}
+      </button>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .room-card__meta { font-size: 0.8rem; opacity: 0.9; margin-top: 2px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shop the room",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the Room" },
+    { "type": "text", "id": "subheading", "label": "Sub-heading", "default": "Curated rooms. Designed for you." },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "default", "label": "White" },
+        { "value": "surface", "label": "Warm" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "room",
+      "name": "Room",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Modern Bedroom" },
+        { "type": "collection", "id": "collection", "label": "Room collection", "info": "Shows the piece count and lowest price on the card." },
+        { "type": "text", "id": "link_label", "label": "Link label", "info": "Leave blank to use the translated default." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the room",
+      "blocks": [
+        { "type": "room", "settings": { "title": "Modern Bedroom" } },
+        { "type": "room", "settings": { "title": "Luxury Bedroom" } },
+        { "type": "room", "settings": { "title": "Kids Room" } },
+        { "type": "room", "settings": { "title": "Living Room" } },
+        { "type": "room", "settings": { "title": "Dining Room" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
