@@ -301,7 +301,10 @@
       "byo_text": "Choose any mattress, bed and sofa and we will put them together as a set for you.",
       "byo_btn": "Build My Bundle",
       "byo_wa": "Ask on WhatsApp",
-      "byo_wa_message": "Hi MAYF Home, I would like help building a bundle."
+      "byo_wa_message": "Hi MAYF Home, I would like help building a bundle.",
+      "c1_wa": "Hi MAYF Home, I would like to build the Hotel Sleep Essentials bundle.",
+      "c2_wa": "Hi MAYF Home, I would like the Complete Hotel Bedroom bundle.",
+      "c3_wa": "Hi MAYF Home, I would like the New Home Comfort Set (bed, mattress and sofa)."
     }
   },
   "customer": {

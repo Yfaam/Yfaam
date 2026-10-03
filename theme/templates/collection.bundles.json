@@ -14,12 +14,8 @@
       "type": "bundle-showcase",
       "settings": {
         "image_1": "shopify://shop_images/bundle-hotel-sleep-essentials.webp",
-        "link_1": "shopify://products/hotel-essential-bundle",
         "image_2": "shopify://shop_images/bundle-complete-hotel-bedroom.webp",
-        "link_2": "shopify://products/hotel-complete-bundle",
-        "image_3": "shopify://shop_images/bundle-new-home-comfort.webp",
-        "link_3": "shopify://pages/bundle",
-        "byo_link": "shopify://pages/bundle"
+        "image_3": "shopify://shop_images/bundle-new-home-comfort.webp"
       }
     }
   },

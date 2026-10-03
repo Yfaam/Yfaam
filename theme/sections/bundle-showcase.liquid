@@ -2,7 +2,8 @@
   Bundle showcase: three curated bundle cards, a how-it-works strip and a
   "build your own" block. Copy comes from the locale files (sections.bundles.*)
   so Arabic is automatic. Each card takes an image, a link and, optionally, a
-  product whose lowest price is shown as "From AED X". No savings or
+  product whose lowest price is shown as "From AED X". When a card has no link
+  yet, its button opens WhatsApp with the bundle name prefilled. No savings or
   "most popular" claims are printed: add them only once they are true.
 {% endcomment %}
 
@@ -29,7 +30,14 @@
           assign cta_key = 'sections.bundles.' | append: p | append: '_cta'
           assign badge_key = 'sections.bundles.' | append: p | append: '_badge'
           assign card_image = section.settings[image_key]
-          assign card_link = section.settings[link_key] | default: routes.all_products_collection_url
+          assign card_link = section.settings[link_key]
+          assign card_external = false
+          if card_link == blank
+            assign wa_key = 'sections.bundles.' | append: p | append: '_wa'
+            assign wa_text = wa_key | t | url_encode
+            assign card_link = 'https://wa.me/' | append: settings.whatsapp_number | append: '?text=' | append: wa_text
+            assign card_external = true
+          endif
           assign card_product = section.settings[product_key]
           assign item_count = 4
           if i == 3
@@ -37,7 +45,7 @@
           endif
         -%}
         <article class="bundle-card" {% if i == 3 %}id="bundle-new-home"{% endif %}>
-          <a class="bundle-card__media" href="{{ card_link }}" tabindex="-1">
+          <a class="bundle-card__media" href="{{ card_link }}" tabindex="-1"{% if card_external %} target="_blank" rel="noopener"{% endif %}>
             {%- if card_image != blank -%}
               <img
                 src="{{ card_image | image_url: width: 900 }}"
@@ -70,7 +78,7 @@
               <p class="bundle-card__price">{{ 'sections.bundles.from_price' | t: price: from_money }}</p>
             {%- endif -%}
 
-            <a href="{{ card_link }}" class="btn btn--primary bundle-card__cta">{{ cta_key | t }}</a>
+            <a href="{{ card_link }}" class="btn btn--primary bundle-card__cta"{% if card_external %} target="_blank" rel="noopener"{% endif %}>{{ cta_key | t }}</a>
             <p class="bundle-card__assure">{{ 'sections.bundles.assure' | t }}</p>
           </div>
         </article>
