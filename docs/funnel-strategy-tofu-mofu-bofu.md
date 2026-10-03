@@ -13,7 +13,7 @@ Numbers marked **[assumption]** are planning placeholders to replace with MAYF's
 | UAE sessions | 484 (US 607, mostly non-buyer traffic; ignore for performance) |
 | UAE funnel | 13 add-to-cart → 10 reached checkout → **0 completed** |
 | Traffic sources | Direct 1,035 · Google 62 · Facebook 45 · ChatGPT 10 · Bing 1 |
-| Active products with 0 stock and inventory tracked | **19** (signature mattress, kids mattress, all 3 hotel bundles, duvets, pillows, toppers, most beds) |
+| Active products showing 0 stock | **19** (signature mattress, kids mattress, all 3 hotel bundles, duvets, pillows, toppers, most beds). **Checked 3 Oct: inventory tracking is OFF on all 107 variants, so zero stock is not what blocks checkout.** 3 pieces per variant were then recorded at Shop location (tracking still off). |
 | Placeholder copy still live | Aurelia, Valor, Lumière beds: "details coming soon" |
 | Missing SKUs | Mattresses, beds, bundles (blocks Google/Meta catalog feeds) |
 
@@ -25,7 +25,8 @@ Numbers marked **[assumption]** are planning placeholders to replace with MAYF's
 
 Done only when a stranger-style test order succeeds on card, on Tabby/Tamara, and on cash on delivery (if offered), and arrives in the order list.
 
-1. **Stock:** for made-to-order and drop-ship lines (mattresses, beds, sofas, curtains, bundles) turn off inventory tracking or enable "Continue selling when out of stock". For genuinely stocked items (pillows, duvets, toppers), set the real counts. Decide per product, then verify the 19 flagged products.
+1. **Stock (checked, not the blocker):** the 19 flagged products are untracked, so they can be bought regardless of count. Decide per product whether it is made-to-order (leave untracked) or stocked (enable tracking with real counts). Note that turning tracking on with 3 pieces would cap sales at 3 per variant and trigger the theme's "Only N left" label (threshold 5), so do it only for items that are truly stocked.
+   **Then find the real blocker:** since stock is not it, look at payment methods at checkout (Tabby/Tamara/cards/COD), shipping rates for UAE addresses, checkout errors, and run a real test order.
 2. **Delivery lead time** shown before checkout, matching the shipping policy (mattresses and bedding 2–3 working days, beds and furniture 5–6, made-to-order shown on the page). Where stock is "made to order", say so on the product page.
 3. **Payment:** confirm Tabby and Tamara appear at checkout, not just in the badge text. Decide on cash on delivery for orders under a cap.
 4. **Shipping rates:** all seven emirates, free over AED 500, remote-area rule matching the policy.
