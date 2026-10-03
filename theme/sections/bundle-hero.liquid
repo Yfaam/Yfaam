@@ -1,0 +1,45 @@
+{% comment %}
+  Bundles page hero. Same look as the homepage hero, but the copy comes from
+  the locale files (sections.bundles.*) so it is translated for Arabic.
+  The two buttons scroll to the bundle cards.
+{% endcomment %}
+
+<section class="hero hero--overlay hero--mobile-stacked" {{ section.shopify_attributes }}>
+  <div class="hero__media">
+    {%- if section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 2000 }}"
+        srcset="{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1400 }} 1400w, {{ section.settings.image | image_url: width: 2000 }} 2000w"
+        sizes="100vw"
+        alt="{{ section.settings.image.alt | escape }}"
+        width="{{ section.settings.image.width }}"
+        height="{{ section.settings.image.height }}"
+        fetchpriority="high">
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+    <div class="hero__scrim"></div>
+  </div>
+
+  <div class="hero__content-wrap">
+    <div class="page-width">
+      <div class="hero__content">
+        <p class="eyebrow" style="margin-bottom: var(--space-3)">{{ 'sections.bundles.hero_eyebrow' | t }}</p>
+        <h1 class="hero__title">{{ 'sections.bundles.hero_title' | t }}</h1>
+        <p class="hero__text">{{ 'sections.bundles.hero_text' | t }}</p>
+        <div class="hero__buttons">
+          <a href="#bundles" class="btn btn--primary btn--lg">{{ 'sections.bundles.hero_btn_bedroom' | t }}</a>
+          <a href="#bundle-new-home" class="btn btn--secondary btn--lg">{{ 'sections.bundles.hero_btn_home' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundles hero",
+  "settings": [{ "type": "image_picker", "id": "image", "label": "Background image" }],
+  "presets": [{ "name": "Bundles hero" }]
+}
+{% endschema %}

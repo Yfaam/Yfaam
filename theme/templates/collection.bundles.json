@@ -1,0 +1,27 @@
+/*
+ * Bundles & Sets collection template.
+ * Curated page: hero, three bundle cards, how it works, build-your-own.
+ * No product grid or price filter: with a handful of curated bundles a
+ * filter sidebar only adds empty space.
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "bundle-hero",
+      "settings": { "image": "shopify://shop_images/bundle-new-home-comfort.webp" }
+    },
+    "showcase": {
+      "type": "bundle-showcase",
+      "settings": {
+        "image_1": "shopify://shop_images/bundle-hotel-sleep-essentials.webp",
+        "link_1": "shopify://products/hotel-essential-bundle",
+        "image_2": "shopify://shop_images/bundle-complete-hotel-bedroom.webp",
+        "link_2": "shopify://products/hotel-complete-bundle",
+        "image_3": "shopify://shop_images/bundle-new-home-comfort.webp",
+        "link_3": "shopify://pages/bundle",
+        "byo_link": "shopify://pages/bundle"
+      }
+    }
+  },
+  "order": ["hero", "showcase"]
+}

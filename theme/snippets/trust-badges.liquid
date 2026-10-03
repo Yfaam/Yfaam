@@ -1,0 +1,150 @@
+{% comment %}
+  Risk-reversal strip.
+
+  A mattress is a high-consideration, hard-to-return purchase, so the global
+  promises (100-night trial, 10-year warranty) exist to answer that specific
+  objection. Bedding and curtains are governed by a different, shorter
+  returns window and no sleep trial — showing the mattress promises on those
+  pages contradicts the real returns policy and creates support disputes.
+  This snippet resolves which promise set applies from the product (on a
+  product page) or the collection (on a collection page), and only falls
+  back to the sitewide mattress promises when neither is given or the item
+  is itself a mattress.
+
+  Accepts: boxed (bordered card style), compact, product, collection
+{% endcomment %}
+
+{%- liquid
+  assign badge_group = 'mattress'
+
+  if product
+    if product.type == 'Bundle' or product.tags contains 'bundle'
+      assign badge_group = 'bundle'
+    elsif product.tags contains 'mattress'
+      assign badge_group = 'mattress'
+    elsif product.type == 'Bed' or product.tags contains 'bed' or product.tags contains 'bed-frame' or product.tags contains 'sofa'
+      assign badge_group = 'furniture'
+    elsif product.type contains 'Curtain' or product.tags contains 'curtains'
+      assign badge_group = 'curtain'
+    else
+      assign badge_group = 'bedding'
+    endif
+  elsif collection
+    assign handle = collection.handle
+    if handle == 'beds' or handle == 'sofas' or handle == 'furniture' or handle contains 'bundle'
+      assign badge_group = 'furniture'
+    elsif handle contains 'curtain'
+      assign badge_group = 'curtain'
+    elsif handle contains 'mattress'
+      assign badge_group = 'mattress'
+    elsif handle == 'bedding' or handle contains 'duvet' or handle contains 'pillow' or handle contains 'sheet' or handle contains 'protector' or handle contains 'topper'
+      assign badge_group = 'bedding'
+    endif
+  endif
+
+  case badge_group
+    when 'furniture'
+      assign icon_1 = 'truck'
+      assign icon_2 = 'check-circle'
+      assign icon_3 = 'installment'
+      assign icon_4 = 'whatsapp'
+      assign t1 = 'sections.home.trust_furn_1_title' | t
+      assign x1 = 'sections.home.trust_furn_1_text' | t
+      assign t2 = 'sections.home.trust_furn_2_title' | t
+      assign x2 = 'sections.home.trust_furn_2_text' | t
+      assign t3 = 'sections.home.trust_furn_3_title' | t
+      assign x3 = 'sections.home.trust_furn_3_text' | t
+      assign t4 = 'sections.home.trust_furn_4_title' | t
+      assign x4 = 'sections.home.trust_furn_4_text' | t
+    when 'bundle'
+      assign icon_1 = 'clock'
+      assign icon_2 = 'shield'
+      assign icon_3 = 'truck'
+      assign icon_4 = 'check-circle'
+      assign t1 = 'sections.home.trust_bundle_1_title' | t
+      assign x1 = 'sections.home.trust_bundle_1_text' | t
+      assign t2 = 'sections.home.trust_bundle_2_title' | t
+      assign x2 = 'sections.home.trust_bundle_2_text' | t
+      assign t3 = 'sections.home.trust_furn_1_title' | t
+      assign x3 = 'sections.home.trust_furn_1_text' | t
+      assign t4 = 'sections.home.trust_furn_2_title' | t
+      assign x4 = 'sections.home.trust_furn_2_text' | t
+    when 'curtain'
+      assign icon_1 = 'clock'
+      assign icon_2 = 'headset'
+      assign icon_3 = 'truck'
+      assign icon_4 = 'lock'
+      assign t1 = settings.curtain_promise_1_title
+      assign x1 = settings.curtain_promise_1_text
+      assign t2 = settings.curtain_promise_2_title
+      assign x2 = settings.curtain_promise_2_text
+      assign t3 = settings.curtain_promise_3_title
+      assign x3 = settings.curtain_promise_3_text
+      assign t4 = settings.curtain_promise_4_title
+      assign x4 = settings.curtain_promise_4_text
+    when 'bedding'
+      assign icon_1 = 'return'
+      assign icon_2 = 'sparkle'
+      assign icon_3 = 'truck'
+      assign icon_4 = 'lock'
+      assign t1 = settings.bedding_promise_1_title
+      assign x1 = settings.bedding_promise_1_text
+      assign t2 = settings.bedding_promise_2_title
+      assign x2 = settings.bedding_promise_2_text
+      assign t3 = settings.bedding_promise_3_title
+      assign x3 = settings.bedding_promise_3_text
+      assign t4 = settings.bedding_promise_4_title
+      assign x4 = settings.bedding_promise_4_text
+    else
+      assign icon_1 = 'clock'
+      assign icon_2 = 'shield'
+      assign icon_3 = 'truck'
+      assign icon_4 = 'return'
+      assign t1 = settings.promise_1_title
+      assign x1 = settings.promise_1_text
+      assign t2 = settings.promise_2_title
+      assign x2 = settings.promise_2_text
+      assign t3 = settings.promise_3_title
+      assign x3 = settings.promise_3_text
+      assign t4 = settings.promise_4_title
+      assign x4 = settings.promise_4_text
+  endcase
+-%}
+
+<div class="trust-bar {% if boxed %}trust-bar--boxed{% endif %}">
+  <div class="{% unless boxed %}page-width{% endunless %}">
+    <div class="trust-bar__grid">
+      <div class="trust-item">
+        {% render 'icon', name: icon_1 %}
+        <div>
+          <div class="trust-item__title">{{ t1 }}</div>
+          <div class="trust-item__text">{{ x1 }}</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        {% render 'icon', name: icon_2 %}
+        <div>
+          <div class="trust-item__title">{{ t2 }}</div>
+          <div class="trust-item__text">{{ x2 }}</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        {% render 'icon', name: icon_3 %}
+        <div>
+          <div class="trust-item__title">{{ t3 }}</div>
+          <div class="trust-item__text">{{ x3 }}</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        {% render 'icon', name: icon_4 %}
+        <div>
+          <div class="trust-item__title">{{ t4 }}</div>
+          <div class="trust-item__text">{{ x4 }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,174 @@
+{% comment %}
+  Bundle showcase: three curated bundle cards, a how-it-works strip and a
+  "build your own" block. Copy comes from the locale files (sections.bundles.*)
+  so Arabic is automatic. Each card takes an image, a link and, optionally, a
+  product whose lowest price is shown as "From AED X". No savings or
+  "most popular" claims are printed: add them only once they are true.
+{% endcomment %}
+
+{%- liquid
+  assign wa_label = 'sections.bundles.byo_wa' | t
+  assign wa_message = 'sections.bundles.byo_wa_message' | t
+-%}
+
+{% render 'trust-badges' %}
+
+<section class="section bundle-showcase" id="bundles" {{ section.shopify_attributes }}>
+  <div class="page-width">
+    <div class="bundle-grid">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign image_key = 'image_' | append: i
+          assign link_key = 'link_' | append: i
+          assign product_key = 'product_' | append: i
+          assign p = 'c' | append: i
+          assign kind_key = 'sections.bundles.' | append: p | append: '_kind'
+          assign sub_key = 'sections.bundles.' | append: p | append: '_sub'
+          assign title_key = 'sections.bundles.' | append: p | append: '_title'
+          assign hook_key = 'sections.bundles.' | append: p | append: '_hook'
+          assign cta_key = 'sections.bundles.' | append: p | append: '_cta'
+          assign badge_key = 'sections.bundles.' | append: p | append: '_badge'
+          assign card_image = section.settings[image_key]
+          assign card_link = section.settings[link_key] | default: routes.all_products_collection_url
+          assign card_product = section.settings[product_key]
+          assign item_count = 4
+          if i == 3
+            assign item_count = 3
+          endif
+        -%}
+        <article class="bundle-card" {% if i == 3 %}id="bundle-new-home"{% endif %}>
+          <a class="bundle-card__media" href="{{ card_link }}" tabindex="-1">
+            {%- if card_image != blank -%}
+              <img
+                src="{{ card_image | image_url: width: 900 }}"
+                srcset="{{ card_image | image_url: width: 500 }} 500w, {{ card_image | image_url: width: 900 }} 900w"
+                sizes="(min-width: 990px) 380px, 90vw"
+                alt="{{ card_image.alt | escape }}"
+                width="{{ card_image.width }}"
+                height="{{ card_image.height }}"
+                loading="lazy">
+            {%- else -%}
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+            {%- if i == 2 -%}<span class="bundle-card__badge">{{ badge_key | t }}</span>{%- endif -%}
+          </a>
+
+          <div class="bundle-card__body">
+            <p class="bundle-card__kind">{{ kind_key | t }} &middot; {{ sub_key | t }}</p>
+            <h2 class="bundle-card__title">{{ title_key | t }}</h2>
+            <p class="bundle-card__hook">{{ hook_key | t }}</p>
+
+            <ul class="bundle-card__list">
+              {%- for n in (1..item_count) -%}
+                {%- assign item_key = 'sections.bundles.' | append: p | append: '_i' | append: n -%}
+                <li>{% render 'icon', name: 'check' %}<span>{{ item_key | t }}</span></li>
+              {%- endfor -%}
+            </ul>
+
+            {%- if card_product != blank and card_product.price > 0 -%}
+              {%- assign from_money = card_product.price | money -%}
+              <p class="bundle-card__price">{{ 'sections.bundles.from_price' | t: price: from_money }}</p>
+            {%- endif -%}
+
+            <a href="{{ card_link }}" class="btn btn--primary bundle-card__cta">{{ cta_key | t }}</a>
+            <p class="bundle-card__assure">{{ 'sections.bundles.assure' | t }}</p>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<section class="section section--surface bundle-steps">
+  <div class="page-width">
+    <h2 class="bundle-steps__title">{{ 'sections.bundles.steps_title' | t }}</h2>
+    <ol class="bundle-steps__list">
+      {%- for n in (1..3) -%}
+        {%- liquid
+          assign step_key = 'sections.bundles.step_' | append: n
+          assign step_text_key = 'sections.bundles.step_' | append: n | append: '_text'
+        -%}
+        <li class="bundle-step">
+          <span class="bundle-step__num">{{ n }}</span>
+          <strong>{{ step_key | t }}</strong>
+          <span>{{ step_text_key | t }}</span>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+<section class="section bundle-byo">
+  <div class="page-width">
+    <div class="bundle-byo__box">
+      <div>
+        <h2 class="bundle-byo__title">{{ 'sections.bundles.byo_title' | t }}</h2>
+        <p class="bundle-byo__text">{{ 'sections.bundles.byo_text' | t }}</p>
+      </div>
+      <div class="bundle-byo__actions">
+        {%- if section.settings.byo_link != blank -%}
+          <a href="{{ section.settings.byo_link }}" class="btn btn--primary">{{ 'sections.bundles.byo_btn' | t }}</a>
+        {%- endif -%}
+        {% render 'whatsapp-link', label: wa_label, message: wa_message %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .bundle-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
+  .bundle-card { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: 6px; overflow: hidden; background: var(--color-bg); }
+  .bundle-card__media { position: relative; display: block; aspect-ratio: 1 / 1; background: var(--color-surface); overflow: hidden; }
+  .bundle-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .bundle-card:hover .bundle-card__media img { transform: scale(1.04); }
+  .bundle-card__badge { position: absolute; top: 14px; inset-inline-start: 14px; padding: 6px 12px; border-radius: 999px; background: var(--color-text); color: var(--color-button-text); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; }
+  .bundle-card__body { display: flex; flex-direction: column; gap: 10px; padding: clamp(18px, 2.4vw, 28px); flex: 1; }
+  .bundle-card__kind { margin: 0; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-accent); }
+  .bundle-card__title { margin: 0; font-family: var(--font-heading); font-size: clamp(1.3rem, 2vw, 1.65rem); line-height: 1.2; }
+  .bundle-card__hook { margin: 0; color: var(--color-text-muted); }
+  .bundle-card__list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; font-size: 0.9rem; }
+  .bundle-card__list li { display: flex; gap: 10px; align-items: flex-start; }
+  .bundle-card__list svg { flex: none; width: 16px; height: 16px; margin-top: 3px; color: var(--color-success); }
+  .bundle-card__price { margin: 6px 0 0; font-weight: 700; font-size: 1.15rem; }
+  .bundle-card__cta { margin-top: auto; justify-content: center; text-align: center; }
+  .bundle-card__assure { margin: 0; font-size: 0.76rem; line-height: 1.5; text-align: center; color: var(--color-text-muted); }
+
+  .bundle-steps__title, .bundle-byo__title { margin: 0 0 18px; text-align: center; font-family: var(--font-heading); font-size: clamp(1.4rem, 2.6vw, 2rem); }
+  .bundle-steps__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .bundle-step { display: grid; gap: 4px; justify-items: center; text-align: center; font-size: 0.92rem; }
+  .bundle-step span:last-child { color: var(--color-text-muted); }
+  .bundle-step__num { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--color-accent); color: var(--color-accent); font-weight: 700; margin-bottom: 4px; }
+
+  .bundle-byo__box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 32px; padding: clamp(22px, 3vw, 36px); border-radius: var(--radius); background: var(--color-sand); }
+  .bundle-byo__title { margin: 0 0 6px; text-align: start; }
+  .bundle-byo__text { margin: 0; max-width: 56ch; color: var(--color-text-muted); }
+  .bundle-byo__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 989px) {
+    .bundle-grid { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; }
+    .bundle-steps__list { grid-template-columns: 1fr; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Bundle showcase",
+  "settings": [
+    { "type": "header", "content": "Card 1: Hotel Sleep Essentials" },
+    { "type": "image_picker", "id": "image_1", "label": "Image" },
+    { "type": "url", "id": "link_1", "label": "Link" },
+    { "type": "product", "id": "product_1", "label": "Bundle product (for the From price)" },
+    { "type": "header", "content": "Card 2: The Complete Hotel Bedroom" },
+    { "type": "image_picker", "id": "image_2", "label": "Image" },
+    { "type": "url", "id": "link_2", "label": "Link" },
+    { "type": "product", "id": "product_2", "label": "Bundle product (for the From price)" },
+    { "type": "header", "content": "Card 3: The New Home Comfort Set" },
+    { "type": "image_picker", "id": "image_3", "label": "Image" },
+    { "type": "url", "id": "link_3", "label": "Link" },
+    { "type": "product", "id": "product_3", "label": "Bundle product (for the From price)" },
+    { "type": "header", "content": "Build your own" },
+    { "type": "url", "id": "byo_link", "label": "Bundle builder page link" }
+  ],
+  "presets": [{ "name": "Bundle showcase" }]
+}
+{% endschema %}
