@@ -1,0 +1,43 @@
+/*
+ * Book a Free Visit page.
+ * Assign as the "book-visit" template on the page (Pages > Book a Free Visit >
+ * Theme template). Shows the page content, a WhatsApp option, then the booking
+ * form (Shopify's native contact form: submissions go to the store email).
+ */
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": {} },
+    "whatsapp": { "type": "whatsapp-cta", "settings": {} },
+    "booking": {
+      "type": "interior-booking",
+      "blocks": {
+        "b1": { "type": "assurance", "settings": { "label": "Free Measurement", "icon": "ruler" } },
+        "b2": { "type": "assurance", "settings": { "label": "No Obligation", "icon": "check-circle" } },
+        "b3": { "type": "assurance", "settings": { "label": "Free Installation", "icon": "truck" } },
+        "b4": { "type": "assurance", "settings": { "label": "Quick Response", "icon": "clock" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"],
+      "settings": {
+        "heading": "Book a Free Curtain Measurement",
+        "text": "Tell us where and when, and our curtain expert will confirm your free visit.",
+        "image": "shopify://shop_images/Luxury_interior_design_hero_image_202608170044.jpg",
+        "label_name": "Full Name",
+        "label_phone": "Phone Number",
+        "label_email": "Email Address",
+        "label_space": "I'm interested in",
+        "label_budget": "Preferred Budget",
+        "label_message": "Your address and preferred date/time",
+        "placeholder_space": "Select Curtain Type",
+        "placeholder_budget": "Select Budget",
+        "placeholder_message": "Area / building, number of windows, and the day and time that suit you...",
+        "space_options": "Sheers\nBlackout\nSheers + Blackout\nRoman Blinds\nRoller Blinds\nMotorized Curtains\nCurtain Tracks & Rods\nNot sure yet",
+        "budget_options": "Under AED 500\nAED 500 - 1,500\nAED 1,500 - 3,000\nAbove AED 3,000",
+        "button_label": "Book My Free Visit",
+        "success_text": "Thank you. Our curtain expert will contact you within one working day to confirm your free visit.",
+        "disclaimer": "Free measurement and quote, with no obligation.",
+        "background": "default"
+      }
+    }
+  },
+  "order": ["main", "whatsapp", "booking"]
+}

@@ -38,3 +38,17 @@ Uploaded to theme 194249392500 (unpublished) on 2026-10-03; all files verified b
 Essential/Signature/Luxe comparison (needs real specs), customer reviews / UGC (needs real data, testimonials
 section stays disabled), Arabic for existing sections' settings (hero, category and carousel headings, newsletter):
 these live in Translate & Adapt, not locale files.
+
+## Book a Free Visit page (added 3 Oct 2026)
+The live page only said "contact us on WhatsApp or via our contact page" with no button or form.
+New files: `sections/whatsapp-cta.liquid` (WhatsApp card with prefilled message), `templates/page.book-visit.json`
+(page content, WhatsApp card, then the native contact-form booking section with curtain-type labels),
+and new `sections.home.visit_*` strings in both locale files.
+
+Deploy to a DUPLICATE (not the live theme): Themes -> live theme -> ... -> Duplicate, then
+```sh
+shopify theme push --theme <DUPLICATE_ID> --nodelete \
+  --only sections/whatsapp-cta.liquid --only templates/page.book-visit.json \
+  --only locales/en.default.json --only locales/ar.json
+```
+Then publish the duplicate and set Pages -> Book a Free Visit -> Theme template = `page.book-visit`.
