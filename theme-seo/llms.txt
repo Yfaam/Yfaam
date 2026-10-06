@@ -1,0 +1,13 @@
+# MAYF Home
+
+> MAYF Home (mayfhome.com) is a UAE home furnishings retailer selling hotel-quality mattresses, 300TC bedding, beds, sofas and made-to-measure curtains and blinds. It serves Dubai, Abu Dhabi, Sharjah, Ajman and the rest of the UAE. Prices are in AED.
+
+## Key pages
+- [Mattresses](https://mayfhome.com/collections/mattresses): memory foam, pocket spring, latex, hybrid; single, queen, king and super king sizes
+- [Bedding](https://mayfhome.com/collections/bedding): duvets, duvet covers, sheets, pillows, pillow cases, toppers, protectors
+- [Beds](https://mayfhome.com/collections/beds): upholstered beds and frames
+- [Sofas](https://mayfhome.com/collections/sofas)
+- [Curtains and blinds](https://mayfhome.com/collections/curtains): made to measure, with free home measurement and installation
+- [Shipping and delivery](https://mayfhome.com/pages/shipping-policy)
+- [Returns and refunds](https://mayfhome.com/pages/returns-policy)
+- [Contact](https://mayfhome.com/pages/contact)

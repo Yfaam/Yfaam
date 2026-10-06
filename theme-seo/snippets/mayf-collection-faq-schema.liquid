@@ -1,0 +1,25 @@
+{%- comment -%}
+  FAQPage JSON-LD built from the collection description's own <h3>question</h3><p>answer</p> pairs
+  (the pattern used in the collection copy). Only emits pairs whose h3 ends in "?".
+  Render in collection template: {% render 'mayf-collection-faq-schema' %}
+  Schema must match visible page content: it does, because it reads the same description.
+{%- endcomment -%}
+{%- assign parts = collection.description | split: '<h3>' -%}
+{%- assign emitted = 0 -%}
+{%- capture items -%}
+  {%- for part in parts offset: 1 -%}
+    {%- assign q = part | split: '</h3>' | first | strip_html | strip -%}
+    {%- assign rest = part | split: '</h3>' | last -%}
+    {%- assign a = rest | split: '<h' | first | strip_html | strip -%}
+    {%- if q contains '?' and a != blank -%}
+      {%- if emitted > 0 -%},{%- endif -%}
+      {"@type":"Question","name":{{ q | json }},"acceptedAnswer":{"@type":"Answer","text":{{ a | json }}}}
+      {%- assign emitted = emitted | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- if items != blank -%}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ items | strip }}]}
+</script>
+{%- endif -%}
