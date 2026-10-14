@@ -38,3 +38,7 @@ Backups: ./backups/ (originals of edited descriptions/articles, deleted collecti
 - Reverted: all 19 products are back on templateSuffix "store-wide" (verified from the API response).
 - Finding: the "Copy of ... Final Ar/Eng version" theme is NOT a copy of live. They have diverged (live has store-wide, collection-mattresses, ss-* sections, pdp-aside, index.ai-* templates; the copy has home-faq, why-mayf, shop-by-need, curtain-cta, bundle-*, page.book-visit and others). Do not publish the copy without reviewing it.
 - Merchant listings "Missing field image": live snippets/product-schema.liquid has no image on variant Products. The copy's version adds one (variant image, else product image). It needs to go into the live theme.
+
+## 2026-10-14 (later) — decision: the copy theme is the one to publish
+- sections/announcement-bar.liquid default text in the copy: "100 Nights" -> "10 Nights".
+- Prepared docs/post-publish-template-map.md (product template reassignment to run after publishing).
