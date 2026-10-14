@@ -32,3 +32,9 @@ Backups: ./backups/ (originals of edited descriptions/articles, deleted collecti
 - Hotel Collection Tight Top variant positions 1,2,2,2,2,2.
 - Inflated compare-at prices (FR Tight/Euro Top); waiting on compare_at_policy.
 - Duplicate products, address for schema, title-suffix decision still unanswered.
+
+## 2026-10-14 (later) — CORRECTION: template change reverted
+- The `store-wide` -> `mattress` change (item 1 above) was WRONG for the live theme. I had only checked the copy theme, which has no `product.store-wide.json`. The LIVE theme has it (a richer page using Section Store ss-* sections), and the live `product.mattress.json` is an older template that says "100 nights ... after a 21-night adjustment period". For a short time live mattress pages were on that older template.
+- Reverted: all 19 products are back on templateSuffix "store-wide" (verified from the API response).
+- Finding: the "Copy of ... Final Ar/Eng version" theme is NOT a copy of live. They have diverged (live has store-wide, collection-mattresses, ss-* sections, pdp-aside, index.ai-* templates; the copy has home-faq, why-mayf, shop-by-need, curtain-cta, bundle-*, page.book-visit and others). Do not publish the copy without reviewing it.
+- Merchant listings "Missing field image": live snippets/product-schema.liquid has no image on variant Products. The copy's version adds one (variant image, else product image). It needs to go into the live theme.
