@@ -42,3 +42,13 @@ Backups: ./backups/ (originals of edited descriptions/articles, deleted collecti
 ## 2026-10-14 (later) — decision: the copy theme is the one to publish
 - sections/announcement-bar.liquid default text in the copy: "100 Nights" -> "10 Nights".
 - Prepared docs/post-publish-template-map.md (product template reassignment to run after publishing).
+
+## 2026-10-15 — speed fixes in the copy theme (PageSpeed mobile: perf 69, LCP 9.2s, FCP 2.8s, 3,047 KiB payload)
+Copy theme only (194249392500). Not measurable before publishing; re-run PageSpeed after.
+- layout/theme.liquid: preload body font (and heading font if different) so text paints in the right face sooner.
+- sections/hero.liquid (LCP image): added 500/1200/1600w candidates, default src 2000 -> 1400, decoding=async; kept fetchpriority=high and no lazy-load.
+- sections/category-grid.liquid: responsive srcset/sizes (300/500/700), decoding=async (was a single 700px image).
+- sections/quiz-banner.liquid: srcset 600-1600 + sizes (was a single 1600px image in a 180px-tall slot on phones).
+- sections/curtain-cta.liquid: srcset 500/900/1200 + sizes (was a single 1200px image).
+Not fixable in the theme (app embeds in content_for_header): unused JS 171 KiB, extra preconnects, cache lifetimes.
+Not done: accessibility flags (aria-hidden mobile-nav/drawer with focusable children, contrast, icon-only wishlist link).
