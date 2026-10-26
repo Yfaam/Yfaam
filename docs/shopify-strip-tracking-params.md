@@ -25,3 +25,13 @@ links and then gets redirected. Fix: emit the clean URL in the theme's product l
 ## After deploying
 
 Search Console > Pages > "Page with redirect" > Validate fix. Old URLs drop off over a few weeks.
+
+---
+
+# Fix 2: block `.atom` feeds
+
+Copy `theme/templates/robots.txt.liquid` into the theme (Add a new template > robots.txt). It keeps
+Shopify's default rules and adds `Disallow: /*.atom` under `User-agent: *`. Check
+`https://mayfhome.com/robots.txt` afterwards. The 5 `/cdn/shop/.../assets/*.js` files need no action.
+
+Note: blocked URLs will later show under "Blocked by robots.txt", which is expected and harmless.

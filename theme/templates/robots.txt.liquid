@@ -1,0 +1,20 @@
+{%- comment -%}
+  Shopify default robots.txt plus a rule blocking auto-generated .atom feeds
+  (44 "Crawled - currently not indexed" URLs in Search Console).
+  Add via Online Store > Themes > Edit code > Add a new template > robots.txt.
+{%- endcomment -%}
+{% for group in robots.default_groups %}
+  {{- group.user_agent }}
+
+  {%- for rule in group.rules -%}
+    {{ rule }}
+  {%- endfor -%}
+
+  {%- if group.user_agent.value == '*' -%}
+    {{ 'Disallow: /*.atom' }}
+  {%- endif -%}
+
+  {%- if group.sitemap != blank %}
+    {{ group.sitemap }}
+  {%- endif %}
+{% endfor %}
