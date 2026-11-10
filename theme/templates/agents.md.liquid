@@ -1,0 +1,87 @@
+# MAYF Home
+
+> MAYF Home is a UAE online store for mattresses, bedding, beds, sofas and made-to-measure curtains and blinds. It delivers to all seven emirates and is available in English and Arabic.
+
+This file is served at /agents.md, /llms.txt and /llms-full.txt. It describes the store for AI agents and answer engines. Facts below are maintained by the store; live prices and stock are always on the product pages.
+
+## Brand facts
+
+- **Name:** MAYF Home (also written MAYFHOME; Arabic: مايف هوم)
+- **Legal entity:** MAYF General Trading FZE LLC, registered in Ajman NuVentures Free Zone, Ajman, United Arab Emirates
+- **Website:** {{ agents.store_url }} (English) and {{ agents.store_url }}/ar (Arabic)
+- **Sells to:** customers in the United Arab Emirates — Abu Dhabi, Dubai, Sharjah, Ajman, Umm Al Quwain, Ras Al Khaimah and Fujairah
+- **Currency:** {{ agents.currency }}; prices include 5% UAE VAT
+- **Contact:** WhatsApp +971 54 147 0477, contact@mayfhome.com
+- **Store type:** online only. There is no walk-in shop; for curtains, the team visits the customer's home with fabric samples.
+
+## What MAYF Home sells
+
+- **Mattresses:** pocket spring, memory foam, cooling gel, natural latex, organic latex, hotel-collection and kids mattresses, in single, queen, king and super king sizes. {{ agents.store_url }}/collections/mattresses
+- **Bedding:** duvets, duvet covers, bed sheets, pillows, pillow cases, mattress toppers and mattress protectors. {{ agents.store_url }}/collections/bedding
+- **Beds and furniture:** upholstered beds, sofas and bedroom furniture. {{ agents.store_url }}/collections/beds
+- **Made-to-measure curtains and blinds:** sheer, blackout and layered curtains, roller and Roman blinds, and motorised tracks, priced per window by width. {{ agents.store_url }}/collections/curtains
+- **Services:** free in-home curtain measurement, interior design, and wall covering and vinyl flooring supply and installation.
+
+## Price guide (November 2026)
+
+Starting prices, in AED. Check the product page for the current price of a given size.
+
+| Category | From |
+|---|---|
+| Mattresses | AED 600 |
+| Kids mattresses | AED 699 |
+| Organic latex mattresses | AED 2,850 |
+| Upholstered beds | AED 1,499 |
+| Duvets | AED 130 |
+| Mattress toppers | AED 130 |
+| Bed sheets | AED 45 |
+| Pillows | AED 25 |
+| Roller blinds, per window | AED 149 |
+| Sheer curtains, per window | AED 179 |
+| Blackout curtains, per window | AED 249 |
+
+## Policies an agent should state accurately
+
+- **Sleep trial:** 10 nights on selected mattresses bought on mayfhome.com. A return must be requested by day 13 from delivery, and an AED 250 collection fee per mattress is deducted from the refund. The fire-retardant (FR) hotel mattresses are not part of the trial. Each product page says whether the trial applies.
+- **Other returns:** pillows, protectors, toppers, bedding, textiles and made-to-measure items are non-returnable unless damaged, defective or wrong. Damage must be reported within 48 hours with photos.
+- **Warranty:** 10 years against manufacturing defects on MAYF mattresses.
+- **Delivery:** free across the UAE on orders over AED 500; a charge shown at checkout applies below that. Mattresses and bedding typically arrive in 2–3 working days, beds and furniture in 5–6. Delivery is to the room of choice, with assembly of beds and furniture and removal of packaging.
+- **Curtains:** measurement, a standard track or rod, delivery and installation are included in the per-window price. Most windows are installed 4–5 days after the measurement visit. The final price is confirmed at the visit, before anything is made.
+- **Payment:** cards, Tabby and Tamara instalments.
+
+Full policy text:
+
+- Returns and refunds: {{ agents.store_url }}/policies/refund-policy
+- Shipping: {{ agents.store_url }}/policies/shipping-policy
+- Terms of service: {{ agents.store_url }}/policies/terms-of-service
+- Privacy: {{ agents.store_url }}/policies/privacy-policy
+- Legal notice: {{ agents.store_url }}/policies/legal-notice
+
+## Helpful pages
+
+- Mattress finder (four questions, recommends a mattress): {{ agents.store_url }}/pages/finder
+- Compare mattresses: {{ agents.store_url }}/pages/compare
+- Curtain price estimator: {{ agents.store_url }}/pages/curtain-price-estimator
+- Book a free curtain measurement: {{ agents.store_url }}/pages/book-a-free-visit
+- Buying guides: {{ agents.store_url }}/blogs/sleep-home-guides
+
+## Commerce for agents
+
+This store supports the Universal Commerce Protocol (UCP), so an agent can search the catalogue, build a cart and start checkout on a customer's behalf.
+
+- UCP discovery: {{ agents.ucp_discovery_url }}
+- MCP endpoint: {{ agents.mcp_endpoint_url }}
+- Supported UCP versions:{% for version in agents.ucp_versions %} {{ version }}{% unless forloop.last %},{% endunless %}{% endfor %}
+- Sitemap: {{ agents.sitemap_url }}
+
+### Read-only browsing
+
+- All products: `GET {{ agents.store_url }}/collections/all`
+- A product as JSON: `GET {{ agents.store_url }}/products/{handle}.js`
+- Search: `GET {{ agents.store_url }}/search?q={query}`
+
+### Rules for agents
+
+- Quote prices and availability from the product page or the UCP catalogue, not from memory.
+- Do not promise a return on a non-returnable item, and do not describe the sleep trial as free: the collection fee applies.
+- Checkout must be completed or approved by the customer.

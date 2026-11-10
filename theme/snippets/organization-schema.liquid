@@ -1,0 +1,175 @@
+{% comment %}
+  Site-wide entity structured data.
+
+  - Organization (typed OnlineStore) on every page. The brand is written once,
+    as "MAYF Home", whatever the store name is set to in admin; the other
+    spellings in circulation go in alternateName so search and answer engines
+    resolve them to one entity.
+  - WebSite on the home page only. Its name/alternateName is what Google uses
+    for the site name in results.
+  - LocalBusiness only when "Customers can visit this address" is ticked in
+    Theme settings > Business details. The registered address is an office,
+    and marking an office up as a walk-in store breaks Google's guidelines.
+
+  Only fields backed by real store data go in here. sameAs is built from the
+  social links that are actually set; opening hours print only when both
+  times are filled in.
+{% endcomment %}
+
+{%- liquid
+  assign brand = 'MAYF Home'
+  assign org_id = shop.url | append: '/#organization'
+  assign site_id = shop.url | append: '/#website'
+
+  assign logo_image = settings.schema_logo
+  if logo_image == blank
+    assign logo_image = settings.favicon
+  endif
+
+  if request.locale.iso_code == 'ar'
+    assign org_description = 'متجر إلكتروني إماراتي للمراتب والمفروشات والأسرّة والستائر حسب القياس، مع توصيل إلى جميع إمارات الدولة السبع.'
+  else
+    assign org_description = 'UAE online store for mattresses, bedding, beds and made-to-measure curtains, delivering to all seven emirates.'
+  endif
+
+  assign same_as = ''
+  if settings.social_instagram_link != blank
+    assign same_as = same_as | append: settings.social_instagram_link | append: ','
+  endif
+  if settings.social_facebook_link != blank
+    assign same_as = same_as | append: settings.social_facebook_link | append: ','
+  endif
+  if settings.social_tiktok_link != blank
+    assign same_as = same_as | append: settings.social_tiktok_link | append: ','
+  endif
+  if settings.social_youtube_link != blank
+    assign same_as = same_as | append: settings.social_youtube_link | append: ','
+  endif
+  assign same_as = same_as | split: ','
+
+  assign street = settings.business_street | default: '26th Floor, Amber Gem Tower, Khalifa Street'
+  assign city = settings.business_city | default: 'Ajman'
+  assign email = settings.business_email | default: 'contact@mayfhome.com'
+  assign phone = settings.whatsapp_number | prepend: '+'
+  assign emirates = 'Abu Dhabi,Dubai,Sharjah,Ajman,Umm Al Quwain,Ras Al Khaimah,Fujairah' | split: ','
+
+  assign has_hours = false
+  if settings.business_hours_open != blank and settings.business_hours_close != blank and settings.business_hours_days != blank
+    assign has_hours = true
+    assign hours_days = settings.business_hours_days | split: ','
+  endif
+-%}
+
+{%- capture postal_address -%}
+  {
+    "@type": "PostalAddress",
+    "streetAddress": {{ street | json }},
+    "addressLocality": {{ city | json }},
+    "addressRegion": {{ city | json }},
+    "addressCountry": "AE"
+  }
+{%- endcapture -%}
+
+{%- capture area_served -%}
+  [
+    {%- for emirate in emirates -%}
+      { "@type": "AdministrativeArea", "name": {{ emirate | json }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+{%- endcapture -%}
+
+{%- capture opening_hours -%}
+  {%- if has_hours -%}
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        {%- for day in hours_days -%}
+          {{ day | strip | prepend: 'https://schema.org/' | json }}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ],
+      "opens": {{ settings.business_hours_open | json }},
+      "closes": {{ settings.business_hours_close | json }}
+    }
+  {%- endif -%}
+{%- endcapture -%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "OnlineStore",
+    "@id": {{ org_id | json }},
+    "name": {{ brand | json }},
+    "alternateName": ["MAYFHOME", "Mayf Home", "مايف هوم"],
+    "legalName": "MAYF General Trading FZE LLC",
+    "url": {{ shop.url | json }},
+    "description": {{ org_description | json }},
+    {%- if logo_image != blank %}
+    "logo": {{ logo_image | image_url: width: 600 | prepend: 'https:' | json }},
+    "image": {{ logo_image | image_url: width: 1200 | prepend: 'https:' | json }},
+    {%- endif %}
+    "email": {{ email | json }},
+    "telephone": {{ phone | json }},
+    "areaServed": {{ area_served }},
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": {{ phone | json }},
+      "email": {{ email | json }},
+      "contactType": "customer service",
+      "areaServed": "AE",
+      "availableLanguage": ["English", "Arabic"]
+      {%- if has_hours -%}
+      ,"hoursAvailable": {{ opening_hours }}
+      {%- endif -%}
+    },
+    "address": {{ postal_address }}
+    {%- if same_as.size > 0 -%}
+    ,"sameAs": {{ same_as | json }}
+    {%- endif -%}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": {{ site_id | json }},
+      "name": {{ brand | json }},
+      "alternateName": ["MAYFHOME", "mayfhome.com", "مايف هوم"],
+      "url": {{ shop.url | append: routes.root_url | json }},
+      "inLanguage": {{ request.locale.iso_code | json }},
+      "publisher": { "@id": {{ org_id | json }} },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "{{ shop.url }}{{ routes.search_url }}?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+
+  {%- if settings.business_has_showroom -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "HomeGoodsStore",
+        "@id": {{ shop.url | append: '/#store' | json }},
+        "name": {{ brand | json }},
+        "url": {{ shop.url | json }},
+        "parentOrganization": { "@id": {{ org_id | json }} },
+        {%- if logo_image != blank %}
+        "image": {{ logo_image | image_url: width: 1200 | prepend: 'https:' | json }},
+        {%- endif %}
+        "telephone": {{ phone | json }},
+        "priceRange": "AED",
+        "address": {{ postal_address }},
+        "areaServed": {{ area_served }}
+        {%- if has_hours -%}
+        ,"openingHoursSpecification": {{ opening_hours }}
+        {%- endif -%}
+      }
+    </script>
+  {%- endif -%}
+{%- endif -%}

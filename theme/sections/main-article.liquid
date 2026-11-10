@@ -1,0 +1,45 @@
+<div class="page-width">
+  {% render 'breadcrumbs' %}
+
+  <article style="max-width: 70ch; margin: 0 auto; padding-block: var(--space-6)">
+    {%- liquid
+      assign author_name = article.author
+      assign author_check = author_name | downcase
+      if author_name == blank or author_check contains 'admin'
+        assign author_name = 'MAYF Home'
+      endif
+      assign published_day = article.published_at | date: '%Y-%m-%d'
+      assign updated_day = article.updated_at | default: article.published_at | date: '%Y-%m-%d'
+      if request.locale.iso_code == 'ar'
+        assign L_by = 'بقلم'
+        assign L_updated = 'آخر تحديث'
+      else
+        assign L_by = 'By'
+        assign L_updated = 'Updated'
+      endif
+    -%}
+    <p class="eyebrow">
+      <time datetime="{{ published_day }}">{{ article.published_at | date: '%d %B %Y' }}</time>
+      &middot; {{ L_by }} {{ author_name }}
+      {%- if updated_day != published_day %}
+        &middot; {{ L_updated }} <time datetime="{{ updated_day }}">{{ article.updated_at | date: '%d %B %Y' }}</time>
+      {%- endif -%}
+    </p>
+    <h1 class="h2" style="margin-block: var(--space-3) var(--space-5)">{{ article.title }}</h1>
+
+    {%- if article.image -%}
+      <img
+        src="{{ article.image | image_url: width: 1400 }}"
+        alt="{{ article.image.alt | escape }}"
+        width="{{ article.image.width }}"
+        height="{{ article.image.height }}"
+        style="border-radius: var(--radius); margin-bottom: var(--space-5)">
+    {%- endif -%}
+
+    <div class="rte">{{ article.content }}</div>
+  </article>
+</div>
+
+{% schema %}
+{ "name": "Article" }
+{% endschema %}

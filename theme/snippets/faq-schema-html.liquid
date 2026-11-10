@@ -1,0 +1,114 @@
+{% comment %}
+  FAQPage structured data read out of authored HTML (a collection description,
+  an article or a page), so FAQs written in the editor are marked up without
+  anyone maintaining a second copy.
+
+  It looks for the first <h2> whose text says FAQ / frequently asked questions
+  (English or Arabic) and reads the questions that follow it, up to the next
+  <h2>. Two authoring patterns are understood:
+
+    <h3>Question?</h3><p>Answer</p>
+    <p><strong>Question?</strong><br>Answer</p>
+
+  Content written one heading level too high (an <h1> FAQ heading with <h2>
+  questions) is read the same way.
+
+  Renders nothing when no such block exists. The text always comes from the
+  visible page, so the schema can't say something the page doesn't.
+
+  Accepts:
+    html — the HTML to scan
+{% endcomment %}
+
+{%- liquid
+  assign faq_block = ''
+  assign h2_chunks = html | split: '<h2'
+  for chunk in h2_chunks
+    if forloop.first
+      continue
+    endif
+    assign chunk_parts = chunk | split: '</h2>'
+    assign heading = chunk_parts[0] | prepend: '<h2' | strip_html | downcase
+    if heading contains 'faq' or heading contains 'frequently asked' or heading contains 'الأسئلة الشائعة' or heading contains 'أسئلة شائعة' or heading contains 'الأسئلة المتكررة'
+      assign faq_block = chunk_parts[1]
+      break
+    endif
+  endfor
+
+  assign q_open = '<h3'
+  assign q_close = '</h3>'
+  if faq_block == blank
+    assign h1_chunks = html | split: '<h1'
+    for chunk in h1_chunks
+      if forloop.first
+        continue
+      endif
+      assign chunk_parts = chunk | split: '</h1>'
+      assign heading = chunk_parts[0] | prepend: '<h1' | strip_html | downcase
+      if heading contains 'faq' or heading contains 'frequently asked' or heading contains 'الأسئلة الشائعة' or heading contains 'أسئلة شائعة' or heading contains 'الأسئلة المتكررة'
+        assign faq_block = chunk_parts[1]
+        assign q_open = '<h2'
+        assign q_close = '</h2>'
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- capture faq_entities -%}
+  {%- if faq_block contains q_open -%}
+    {%- assign parts = faq_block | split: q_open -%}
+    {%- for part in parts offset: 1 limit: 30 -%}
+      {%- liquid
+        assign qa = part | split: q_close
+        assign question = qa[0] | prepend: q_open | strip_html | strip_newlines | strip
+        assign answer_html = qa[1]
+        if forloop.last and answer_html contains '</p>'
+          comment
+            Whatever follows the last answer (a sign-off line, "last updated")
+            is not part of it, so the last answer stops at its first paragraph.
+          endcomment
+          assign answer_html = answer_html | split: '</p>' | first
+        endif
+        assign answer = answer_html | replace: '</p>', ' ' | replace: '</li>', ' ' | strip_html | strip_newlines | replace: '&nbsp;', ' ' | replace: '&amp;', '&' | replace: '  ', ' ' | strip
+      -%}
+      {%- if question != blank and answer != blank -%}
+        {"@type":"Question","name":{{ question | replace: '&amp;', '&' | json }},"acceptedAnswer":{"@type":"Answer","text":{{ answer | json }}}}@@@
+      {%- endif -%}
+    {%- endfor -%}
+  {%- elsif faq_block contains '<strong>' -%}
+    {%- assign parts = faq_block | split: '<strong>' -%}
+    {%- for part in parts offset: 1 limit: 30 -%}
+      {%- liquid
+        assign qa = part | split: '</strong>'
+        assign question = qa[0] | strip_html | strip_newlines | strip
+        assign last_char = question | slice: -1
+        assign answer = qa[1] | split: '</p>' | first | strip_html | strip_newlines | replace: '&nbsp;', ' ' | replace: '&amp;', '&' | replace: '  ', ' ' | strip
+      -%}
+      {%- if last_char == '?' or last_char == '؟' -%}
+        {%- if answer != blank -%}
+          {"@type":"Question","name":{{ question | replace: '&amp;', '&' | json }},"acceptedAnswer":{"@type":"Answer","text":{{ answer | json }}}}@@@
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- assign faq_list = faq_entities | strip | split: '@@@' -%}
+{%- if faq_list.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for entity in faq_list -%}
+          {%- assign entity_clean = entity | strip -%}
+          {%- if entity_clean != blank -%}
+            {%- unless forloop.first -%},{%- endunless -%}
+            {{ entity_clean }}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}

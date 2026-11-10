@@ -1,0 +1,171 @@
+{% comment %}
+  Product structured data. ProductGroup + one Product/Offer per variant, so
+  search engines see real price and stock per variant.
+
+  Merchant listings fix (Oct 2026):
+  - every variant now carries "image" (variant image, else the product's
+    featured image) — Search Console flagged 92 items "Missing field image"
+  - variant names use the full variant title, so products with two options
+    (size + fabric/colour) no longer produce four identical "— King" items
+  - "Default Title" is never printed
+  - quote-only variants (price 0, e.g. large-window curtains) are skipped
+  - free shipping is only claimed when the variant qualifies (AED 500+)
+  - return policy states the country and the AED 250 trial collection fee
+
+  SEO audit fixes (Nov 2026):
+  - every variant carries a "sku": the variant SKU when one is set in admin,
+    otherwise the Shopify variant ID, which is stable and unique
+  - the return policy now follows the published Refund Policy. Only mattresses
+    flagged custom.trial_eligible are returnable (request by day 13, collection
+    fee deducted). For everything else no return policy is printed, because the
+    Refund Policy says those items are non-returnable while other parts of the
+    site promise 14 days — structured data must not pick a side until the
+    policy wording is settled. Previously every non-mattress product claimed a
+    14-day return window and the FR hotel mattresses claimed the sleep trial.
+  - variants point back to the group with inProductGroupWithID
+{% endcomment %}
+
+{%- liquid
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+
+  assign brand_name = product.vendor | default: shop.name
+  assign brand_check = brand_name | downcase
+  if brand_check contains 'mayf'
+    assign brand_name = 'MAYF Home'
+  endif
+
+  assign size_option_index = 0
+  assign varies_by = ''
+  for option in product.options_with_values
+    assign option_name = option.name | downcase
+    if option_name == 'size'
+      assign size_option_index = forloop.index
+      assign varies_by = varies_by | append: '"https://schema.org/size",'
+    elsif option_name == 'color' or option_name == 'colour'
+      assign varies_by = varies_by | append: '"https://schema.org/color",'
+    elsif option_name == 'material' or option_name == 'fabric'
+      assign varies_by = varies_by | append: '"https://schema.org/material",'
+    endif
+  endfor
+  assign varies_by = varies_by | remove_last: ','
+
+  comment
+    Sleep-trial mattresses are the only returnable products. The request
+    window is the trial length plus 3 days (10 nights -> request by day 13).
+  endcomment
+  assign trial_eligible = false
+  assign trial_flag = product.metafields.custom.trial_eligible.value | append: ''
+  if trial_flag == 'true'
+    assign trial_eligible = true
+  endif
+  assign trial_nights = product.metafields.custom.trial_nights.value | default: 10 | plus: 0
+  assign return_days = trial_nights | plus: 3
+  assign return_fee = product.metafields.custom.trial_collection_fee.value | default: 250 | plus: 0
+
+  assign free_shipping_threshold = settings.free_delivery_threshold | default: 500 | times: 100
+  assign currency = cart.currency.iso_code
+  assign printed = 0
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "ProductGroup",
+    "name": {{ product.title | json }},
+    "description": {{ product.description | strip_html | truncatewords: 60 | json }},
+    "url": {{ shop.url | append: product.url | json }},
+    "brand": { "@type": "Brand", "name": {{ brand_name | json }} },
+    "productGroupID": {{ product.handle | json }},
+    {%- if varies_by != blank %}
+    "variesBy": [{{ varies_by }}],
+    {%- endif %}
+    {%- if product.media.size > 0 %}
+    "image": [
+      {%- for media in product.media limit: 3 -%}
+        {{ media | image_url: width: 1200 | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ],
+    {%- endif %}
+    {%- if rating and rating_count > 0 %}
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": {{ rating.rating | json }},
+      "reviewCount": {{ rating_count | json }},
+      "bestRating": {{ rating.scale_max | default: 5 | json }}
+    },
+    {%- endif %}
+    "hasVariant": [
+      {%- for variant in product.variants -%}
+        {%- if variant.price == 0 -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign variant_size = ''
+          if size_option_index == 1
+            assign variant_size = variant.option1
+          elsif size_option_index == 2
+            assign variant_size = variant.option2
+          elsif size_option_index == 3
+            assign variant_size = variant.option3
+          endif
+
+          if variant.title == 'Default Title'
+            assign variant_name = product.title
+          else
+            assign variant_name = product.title | append: ' — ' | append: variant.title
+          endif
+
+          assign variant_media = variant.featured_media
+          if variant_media == blank
+            assign variant_media = product.featured_media
+          endif
+        -%}
+        {%- if printed > 0 %},{% endif -%}
+        {%- assign printed = printed | plus: 1 -%}
+        {
+          "@type": "Product",
+          "name": {{ variant_name | json }},
+          "description": {{ product.description | strip_html | strip_newlines | truncatewords: 60 | json }},
+          "sku": {{ variant.sku | default: variant.id | append: '' | json }},
+          "inProductGroupWithID": {{ product.handle | json }},
+          {%- if variant.barcode != blank %}
+          "gtin": {{ variant.barcode | json }},
+          {%- endif %}
+          {%- if variant_media %}
+          "image": {{ variant_media | image_url: width: 1200 | prepend: 'https:' | json }},
+          {%- endif %}
+          {%- if variant_size != blank %}
+          "size": {{ variant_size | json }},
+          {%- endif %}
+          "brand": { "@type": "Brand", "name": {{ brand_name | json }} },
+          "offers": {
+            "@type": "Offer",
+            "url": {{ shop.url | append: variant.url | json }},
+            "priceCurrency": {{ currency | json }},
+            "price": {{ variant.price | divided_by: 100.0 | json }},
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": {% if variant.available %}"https://schema.org/InStock"{% else %}"https://schema.org/OutOfStock"{% endif %},
+            "seller": { "@type": "Organization", "@id": {{ shop.url | append: '/#organization' | json }}, "name": "MAYF Home" }
+            {%- if variant.price >= free_shipping_threshold %},
+            "shippingDetails": {
+              "@type": "OfferShippingDetails",
+              "shippingRate": { "@type": "MonetaryAmount", "value": "0", "currency": {{ currency | json }} },
+              "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "AE" }
+            }
+            {%- endif %}
+            {%- if trial_eligible %},
+            "hasMerchantReturnPolicy": {
+              "@type": "MerchantReturnPolicy",
+              "applicableCountry": "AE",
+              "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+              "merchantReturnDays": {{ return_days }},
+              "returnMethod": "https://schema.org/ReturnByMail",
+              "returnFees": "https://schema.org/ReturnShippingFees",
+              "returnShippingFeesAmount": { "@type": "MonetaryAmount", "value": {{ return_fee | append: '' | json }}, "currency": "AED" }
+            }
+            {%- endif %}
+          }
+        }
+      {%- endfor -%}
+    ]
+  }
+</script>

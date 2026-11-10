@@ -1,0 +1,60 @@
+{% comment %}
+  BlogPosting structured data: who wrote it, when it was published and last
+  changed, and who published it. Dates and author come straight from the
+  article, so they can't disagree with the byline shown on the page.
+
+  An article credited to the store itself (author name contains "MAYF" or
+  "admin") names the organisation as author. An article credited to a named
+  person names that person — set a real author on the article in admin to get
+  a Person here.
+
+  Accepts: article, blog
+{% endcomment %}
+
+{%- liquid
+  assign org_id = shop.url | append: '/#organization'
+  assign article_url = shop.url | append: article.url
+
+  assign author_check = article.author | downcase
+  assign author_is_org = false
+  if article.author == blank or author_check contains 'mayf' or author_check contains 'admin'
+    assign author_is_org = true
+  endif
+
+  assign description = article.excerpt | strip_html | strip_newlines | strip
+  if description == blank
+    assign description = page_description
+  endif
+  if description == blank
+    assign description = article.content | strip_html | strip_newlines | truncatewords: 40
+  endif
+-%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": {{ article_url | append: '#article' | json }},
+    "mainEntityOfPage": { "@type": "WebPage", "@id": {{ article_url | json }} },
+    "url": {{ article_url | json }},
+    "headline": {{ article.title | truncate: 110 | json }},
+    "description": {{ description | json }},
+    {%- if article.image %}
+    "image": [{{ article.image | image_url: width: 1200 | prepend: 'https:' | json }}],
+    {%- endif %}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "dateModified": {{ article.updated_at | default: article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' | json }},
+    "inLanguage": {{ request.locale.iso_code | json }},
+    "articleSection": {{ blog.title | json }},
+    {%- if article.tags.size > 0 %}
+    "keywords": {{ article.tags | join: ', ' | json }},
+    {%- endif %}
+    "author":
+      {%- if author_is_org %}
+      { "@type": "Organization", "@id": {{ org_id | json }}, "name": "MAYF Home", "url": {{ shop.url | json }} }
+      {%- else %}
+      { "@type": "Person", "name": {{ article.author | json }} }
+      {%- endif %},
+    "publisher": { "@type": "Organization", "@id": {{ org_id | json }}, "name": "MAYF Home" }
+  }
+</script>
